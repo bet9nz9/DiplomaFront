@@ -1,0 +1,86 @@
+<div *ngIf="!disable">
+  <mat-spinner></mat-spinner>
+</div>
+<div class="block" *ngIf="disable">
+  <h2 mat-dialog-title>Добавить</h2>
+
+  <mat-form-field style="width: 40vh">
+    <mat-label>Адрес</mat-label>
+    <input matInput type="text" [disabled]="true" value="{{address.name}}" [(ngModel)]="address.name">
+  </mat-form-field>
+
+  <mat-form-field style="width: 40vh" [formGroup]="formGroup">
+    <mat-label>Название</mat-label>
+    <input matInput formControlName="nameForm" [(ngModel)]="utility.name">
+    <mat-error *ngIf="formGroup.controls['nameForm'].hasError('required')">
+      Это поле <strong>обязательное</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field style="width: 40vh" [formGroup]="formGroup">
+    <mat-label>Описание</mat-label>
+    <input matInput formControlName="descriptionForm" [(ngModel)]="utility.description">
+    <mat-error *ngIf="formGroup.controls['descriptionForm'].hasError('required')">
+      Это поле <strong>обязательное</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field style="width: 40vh" [formGroup]="formGroup">
+    <mat-label>Лицевой счет</mat-label>
+    <input matInput formControlName="bankBook" [(ngModel)]="utility.bankBook">
+    <mat-error>
+      <div *ngIf="formGroup.controls['bankBook'].hasError('required')">
+        Это поле <strong>обязательное</strong>
+      </div>
+      <div *ngIf="formGroup.controls['bankBook'].hasError('pattern')">
+        Это поле <strong>обязательное</strong>
+      </div>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" style="width: 40vh" [formGroup]="formGroup">
+    <mat-label>Выберите дату</mat-label>
+    <input matInput [matDatepicker]="picker" formControlName="picker" [(ngModel)]="utility.date">
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+    <mat-error *ngIf="formGroup.controls['picker'].hasError('required')">
+      Это поле <strong>обязательное</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <!--    <input matInput formControlName="date" [(ngModel)]="utility.date">-->
+
+
+  <mat-form-field style="width: 40vh" [formGroup]="formGroup">
+    <mat-label>Тип коммунальной услуги</mat-label>
+    <mat-select [(ngModel)]="serviceName" formControlName="service">
+      <mat-option *ngFor="let service of services" [value]="service.name">
+        {{service.name}}
+      </mat-option>
+    </mat-select>
+    <mat-error *ngIf="formGroup.controls['service'].hasError('required')">
+      Это поле <strong>обязательное</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field style="width: 40vh" [formGroup]="formGroup">
+    <mat-label>Показания в начале месяца</mat-label>
+    <input matInput formControlName="startMonthReading" [(ngModel)]="utility.startMonthReading">
+    <mat-error>
+      <div *ngIf="formGroup.controls['startMonthReading'].hasError('required')">
+        Это поле <strong>обязательное</strong>
+      </div>
+      <div *ngIf="formGroup.controls['startMonthReading'].hasError('pattern')">
+        Показания в начале месяца должны быть <strong>цифрой!</strong>
+      </div>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-dialog-actions>
+    <button mat-raised-button mat-dialog-close>Отмена</button>
+    <button mat-raised-button (click)="createUtility()" [mat-dialog-close]="true" [disabled]="formGroup.invalid">
+      Подтвердить
+    </button>
+  </mat-dialog-actions>
+
+</div>

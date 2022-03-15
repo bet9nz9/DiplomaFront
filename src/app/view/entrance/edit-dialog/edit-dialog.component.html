@@ -1,0 +1,70 @@
+<div *ngIf="!disable"><mat-spinner></mat-spinner></div>
+<div class="block" *ngIf="disable">
+  <h2 mat-dialog-title>Изменить</h2>
+
+  <mat-form-field style="width: 40vh" [formGroup]="formGroup">
+    <mat-label>Название</mat-label>
+    <input matInput formControlName="nameForm" value="{{entrance.name}}" [(ngModel)]="entrance.name">
+    <mat-error *ngIf="formGroup.controls['nameForm'].hasError('required')">
+      Это поле <strong>обязательное!</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field style="width: 40vh" [formGroup]="formGroup">
+    <mat-label>Описание</mat-label>
+    <input matInput formControlName="descriptionForm" value="{{entrance.description}}" [(ngModel)]="entrance.description">
+    <mat-error *ngIf="formGroup.controls['descriptionForm'].hasError('required')">
+      Это поле <strong>обязательное!</strong>
+    </mat-error>
+  </mat-form-field>
+
+
+  <mat-form-field style="width: 40vh" [formGroup]="formGroup">
+    <mat-label>Тип</mat-label>
+    <mat-select [(ngModel)]="typeName" formControlName="typeForm">
+      <mat-option *ngFor="let type of types" [value]="type.name">
+        {{type.name}}
+      </mat-option>
+    </mat-select>
+    <mat-error *ngIf="formGroup.controls['typeForm'].hasError('required')">
+      Это поле <strong>обязательное!</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field style="width: 40vh" [formGroup]="formGroup">
+    <mat-label>Дом</mat-label>
+    <mat-select [(ngModel)]="buildingName" formControlName="buildingForm">
+      <mat-option *ngFor="let building of buildings" [value]="building.name">
+        {{building.name}}
+      </mat-option>
+    </mat-select>
+    <mat-error *ngIf="formGroup.controls['buildingForm'].hasError('required')">
+      Это поле <strong>обязательное!</strong>
+    </mat-error>
+  </mat-form-field>
+
+<!--  <mat-form-field style="width: 40vh" [formGroup]="formGroup">-->
+<!--    <mat-label>roleId</mat-label>-->
+<!--    <input matInput formControlName="roleForm" value="{{entrance.roleId}}" [(ngModel)]="entrance.roleId">-->
+<!--    <mat-error *ngIf="formGroup.controls['roleForm'].hasError('required')">-->
+<!--      RoleId is <strong>required</strong>-->
+<!--    </mat-error>-->
+<!--  </mat-form-field>-->
+
+  <mat-form-field style="width: 40vh" [formGroup]="formGroup">
+    <mat-label>Активное</mat-label>
+    <mat-select formControlName="activeForm" [(ngModel)]="isActive">
+      <mat-option value="true">true</mat-option>
+      <mat-option value="false">false</mat-option>
+    </mat-select>
+    <mat-error *ngIf="formGroup.controls['activeForm'].hasError('required')">
+      Это поле <strong>обязательное!</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-dialog-actions>
+    <button mat-raised-button mat-dialog-close>Отмена</button>
+    <button mat-raised-button (click)="updateEntr()" [disabled]="formGroup.invalid">Подтвердить</button>
+  </mat-dialog-actions>
+
+</div>

@@ -1,0 +1,45 @@
+<div *ngIf="!disable">
+  <mat-spinner></mat-spinner>
+</div>
+<div class="block" *ngIf="disable">
+  <h2 mat-dialog-title>Изменить</h2>
+
+  <mat-form-field style="width: 40vh">
+    <mat-label>К оплате</mat-label>
+    <input matInput type="number" [disabled]="true" value="{{utility.amountToPay}}" [(ngModel)]="utility.amountToPay">
+  </mat-form-field>
+  <mat-form-field style="width: 40vh">
+    <mat-label>Статус</mat-label>
+    <input matInput type="number" [disabled]="true" value="{{utility.status}}" [(ngModel)]="utility.status">
+  </mat-form-field>
+
+  <mat-form-field style="width: 40vh" [formGroup]="formGroup">
+    <mat-label>Фото</mat-label>
+    <input matInput formControlName="photoURL" value="{{utility.photoURL}}" [(ngModel)]="utility.photoURL">
+    <mat-error *ngIf="formGroup.controls['photoURL'].hasError('required')">
+      Name is <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field style="width: 40vh" [formGroup]="formGroup">
+    <mat-label>Название</mat-label>
+    <input matInput formControlName="name" value="{{utility.name}}" [(ngModel)]="utility.name">
+    <mat-error *ngIf="formGroup.controls['name'].hasError('required')">
+      Name is <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field style="width: 40vh" [formGroup]="formGroup">
+    <mat-label>Описание</mat-label>
+    <input matInput formControlName="description" value="{{utility.description}}" [(ngModel)]="utility.description">
+    <mat-error *ngIf="formGroup.controls['description'].hasError('required')">
+      Name is <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-dialog-actions>
+    <button mat-raised-button mat-dialog-close>Отмена</button>
+    <button mat-raised-button (click)="updateUtility()" [mat-dialog-close]="closeDialog" [disabled]="formGroup.invalid">
+      Подтвердить
+    </button>
+  </mat-dialog-actions>
+
+</div>

@@ -1,0 +1,74 @@
+.flexBox {
+  display: flex;
+  //  justify-content: start;
+  align-items: flex-start;
+
+  .box {
+    margin-left: 6vh;
+    margin-right: 6vh;
+    border: 3px solid #666;
+    height: 100%;
+    width: 100%;
+
+    .add {
+      justify-content: space-between;
+      display: flex;
+      margin: 0;
+      align-items: center;
+      text-align: center;
+    }
+
+    .filter {
+      display: flex;
+      text-align: center;
+      align-items: center;
+      font-weight: 600;
+      padding-left: 1vh;
+    }
+
+    .find__button {
+      display: flex;
+      align-items: center;
+      font-weight: 600;
+      padding-left: 1vh;
+      padding-right: 1vh;
+    }
+
+    .add__button {
+      padding-left: 1vh;
+      padding-right: 1vh;
+    }
+
+    .wrapper {
+      display: flex;
+    }
+
+    .flex {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2vh;
+    }
+  }
+
+  .infoBox {
+    width: 25%;
+    margin-left: 4vh;
+    border: 3px solid #666;
+    height: 100%;
+
+    .infoText {
+      font-family: Roboto;
+      font-size: medium;
+    }
+  }
+}
+
+::ng-deep .mat-ink-bar {
+  background-color: var(--primary-color, cadetblue) !important;
+}
+
+table {
+  width: 100%;
+}
+

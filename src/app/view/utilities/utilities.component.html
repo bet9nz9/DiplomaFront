@@ -1,0 +1,98 @@
+<div class="flexBox">
+
+  <app-utilities-info-box class="infoBox" [addressId]="addressId"></app-utilities-info-box>
+
+  <div class="box">
+
+    <div class="add">
+      <div class="wrapper">
+        <div class="filter">
+          <div *ngIf="searchField === 'dateTo' || searchField === 'dateFrom'; else elseField">
+            <mat-form-field appearance="fill" style="width: 40vh">
+              <mat-label>Выберите дату</mat-label>
+              <input matInput [matDatepicker]="picker" [(ngModel)]="searchParameter">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <ng-template #elseField>
+            <mat-form-field style="width: 40vh">
+              <mat-label>Поиск</mat-label>
+              <input matInput placeholder="" [(ngModel)]="searchParameter">
+            </mat-form-field>
+          </ng-template>
+        </div>
+
+        <div class="find__button">
+          <mat-form-field style="width: 15vh">
+            <mat-label>Искать по</mat-label>
+            <mat-select [(ngModel)]="searchField">
+              <mat-option value="">Отсутсвует</mat-option>
+              <mat-option value="dateTo">Дата до</mat-option>
+              <mat-option value="dateFrom">Дата после</mat-option>
+              <mat-option value="status">Статус</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="find__button">
+          <button mat-raised-button [disabled]="flexWheel" (click)="currPage = 0; getData()">Найти</button>
+        </div>
+      </div>
+
+      <div class="add__button" *ngIf="isAdmin">
+        <button mat-raised-button (click)="openAddDialog()" [disabled]="flexWheel">Добавить</button>
+      </div>
+
+    </div>
+
+    <mat-tab-group>
+      <mat-tab label="Последние">
+        <ng-template mat-tab-label>
+          <span (click)="onLastClick()">Последние</span>
+        </ng-template>
+        <app-utilities-table [utilitiesTable]="utilities"></app-utilities-table>
+      </mat-tab>
+      <mat-tab label="Электричество">
+        <ng-template mat-tab-label>
+          <span (click)="onElectricityClick()">Электричество</span>
+        </ng-template>
+        <app-utilities-table [utilitiesTable]="utilities"></app-utilities-table>
+      </mat-tab>
+      <mat-tab label="Вода">
+        <ng-template mat-tab-label>
+          <span (click)="onWaterClick()">Вода</span>
+        </ng-template>
+        <app-utilities-table [utilitiesTable]="utilities"></app-utilities-table>
+      </mat-tab>
+      <mat-tab label="Газ">
+        <ng-template mat-tab-label>
+          <span (click)="onGasClick()">Газ</span>
+        </ng-template>
+        <app-utilities-table [utilitiesTable]="utilities"></app-utilities-table>
+      </mat-tab>
+      <mat-tab label="ОСМД">
+        <ng-template mat-tab-label>
+          <span (click)="onOSMDClick()">ОСМД</span>
+        </ng-template>
+        <app-utilities-table-without-readings [utilitiesTable]="utilities"></app-utilities-table-without-readings>
+      </mat-tab>
+
+      <mat-tab label="Интернет">
+        <ng-template mat-tab-label>
+          <span (click)="onInternetClick()">Интернет</span>
+        </ng-template>
+        <app-utilities-table-without-readings [utilitiesTable]="utilities"></app-utilities-table-without-readings>
+      </mat-tab>
+    </mat-tab-group>
+
+    <mat-paginator length="{{totalElements}}" pageSize="5" [pageSizeOptions]="[5, 10]" (page)="getPaginatorData($event)"
+                   [disabled]="flexWheel"></mat-paginator>
+
+    <div class="flex" *ngIf="flexWheel">
+      <mat-spinner></mat-spinner>
+    </div>
+
+  </div>
+
+</div>

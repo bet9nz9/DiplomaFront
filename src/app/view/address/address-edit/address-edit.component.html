@@ -1,0 +1,55 @@
+<div *ngIf="!disable">
+  <mat-spinner></mat-spinner>
+</div>
+<div class="block" *ngIf="disable">
+  <h2 mat-dialog-title>Изменить</h2>
+
+  <mat-form-field style="width: 40vh">
+    <mat-label>Этаж</mat-label>
+    <input matInput type="number" [disabled]="true" value="{{address.flat}}" [(ngModel)]="address.flat">
+  </mat-form-field>
+
+  <mat-form-field style="width: 40vh">
+    <mat-label>Дом</mat-label>
+    <input matInput type="text" [disabled]="true" value="{{address.building}}" [(ngModel)]="address.building.name">
+  </mat-form-field>
+
+  <mat-form-field style="width: 40vh">
+    <mat-label>Номер квартиры</mat-label>
+    <input matInput type="text" [disabled]="true" value="{{address.apartmentNumber}}"
+           [(ngModel)]="address.apartmentNumber">
+  </mat-form-field>
+
+  <mat-form-field style="width: 40vh" [formGroup]="formGroup">
+    <mat-label>Название</mat-label>
+    <input matInput formControlName="name" value="{{address.name}}" [(ngModel)]="address.name">
+    <mat-error *ngIf="formGroup.controls['name'].hasError('required')">
+      Это поле <strong>обязательное!</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field style="width: 40vh" [formGroup]="formGroup">
+    <mat-label>Описание</mat-label>
+    <input matInput formControlName="description" value="{{address.description}}" [(ngModel)]="address.description">
+    <mat-error *ngIf="formGroup.controls['description'].hasError('required')">
+      Это поле <strong>обязательное!</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field style="width: 40vh">
+    <mat-label>Пользователь</mat-label>
+    <mat-select [(ngModel)]="userEmail">
+      <mat-option *ngFor="let user of users" value="{{user.email}}">
+        {{user.name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-dialog-actions>
+    <button mat-raised-button mat-dialog-close>Отмена</button>
+    <button mat-raised-button (click)="updateAddress()" [mat-dialog-close]="closeDialog" [disabled]="formGroup.invalid">
+      Подтвердить
+    </button>
+  </mat-dialog-actions>
+
+</div>

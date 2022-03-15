@@ -1,0 +1,82 @@
+<div class="box">
+  <div class="add">
+    <div class="wrapper">
+      <div class="filter">
+        <mat-form-field style="width: 40vh">
+          <mat-label>Поиск</mat-label>
+          <input matInput placeholder="name" [(ngModel)]="findName" (keydown.enter)="currPage = 0; find()">
+        </mat-form-field>
+      </div>
+      <div class="find__button">
+        <mat-form-field style="width: 15vh">
+          <mat-label>Искать по</mat-label>
+          <mat-select [(ngModel)]="findFor">
+            <mat-option value="">Отсутсвует</mat-option>
+            <mat-option value="name">Имени</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="find__button">
+        <button mat-raised-button [disabled]="flexWheel" (click)="currPage = 0; find()">Найти</button>
+      </div>
+    </div>
+  </div>
+
+<table mat-table [dataSource]="users" class="mat-elevation-z8">
+
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef>Имя</th>
+    <td mat-cell *matCellDef="let user"> {{user.firstName}} </td>
+  </ng-container>
+  <ng-container matColumnDef="lastName">
+    <th mat-header-cell *matHeaderCellDef>Фамилия</th>
+    <td mat-cell *matCellDef="let user"> {{user.lastName}} </td>
+  </ng-container>
+  <ng-container matColumnDef="patronymic">
+    <th mat-header-cell *matHeaderCellDef>Отчество</th>
+    <td mat-cell *matCellDef="let user"> {{user.patronymic}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="description">
+    <th mat-header-cell *matHeaderCellDef>Описание</th>
+    <td mat-cell *matCellDef="let user"> {{user.description}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="email">
+    <th mat-header-cell *matHeaderCellDef>Электронная почта</th>
+    <td mat-cell *matCellDef="let user"> {{user.email}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="role">
+    <th mat-header-cell *matHeaderCellDef>Роль</th>
+    <td mat-cell *matCellDef="let user"> {{user.role.name}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="edit">
+    <th mat-header-cell *matHeaderCellDef>Изменить</th>
+    <td mat-cell *matCellDef="let user">
+      <button mat-icon-button>
+        <mat-icon color="primary" [routerLink]="['/userProfile', user.id]">edit</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="delete">
+    <th mat-header-cell *matHeaderCellDef>Удалить</th>
+    <td mat-cell *matCellDef="let user">
+      <button mat-icon-button>
+        <mat-icon color="warn" (click)="openSubmitDialog(user)">delete</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+
+<mat-paginator length="{{totalElements}}" pageSize="5" [pageSizeOptions]="[1, 5, 10]" (page)="getPaginatorData($event)" [disabled]="flexWheel"></mat-paginator>
+
+<div class="flex" *ngIf="flexWheel">
+  <mat-spinner></mat-spinner>
+</div>
+</div>

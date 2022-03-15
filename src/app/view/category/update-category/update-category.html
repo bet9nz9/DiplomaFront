@@ -1,0 +1,26 @@
+<div *ngIf="flexWheel"><mat-spinner></mat-spinner></div>
+<div class="block" *ngIf="!flexWheel">
+  <h2 mat-dialog-title>Изменить</h2>
+
+  <mat-form-field style="width: 40vh" [formGroup]="formGroup">
+    <mat-label>Название</mat-label>
+    <input matInput formControlName="nameForm" value="{{category.name}}" [(ngModel)]="category.name">
+    <mat-error *ngIf="formGroup.controls['nameForm'].hasError('required')">
+      Это поле <strong>обязательное!</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field style="width: 40vh" [formGroup]="formGroup">
+    <mat-label>Описание</mat-label>
+    <input matInput formControlName="descriptionForm" value="{{category.description}}" [(ngModel)]="category.description">
+    <mat-error *ngIf="formGroup.controls['descriptionForm'].hasError('required')">
+      Это поле <strong>обязательное!</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-dialog-actions>
+    <button mat-raised-button mat-dialog-close>Отмена</button>
+    <button mat-raised-button (click)="updateCategory()" [disabled]="formGroup.invalid">Подтвердить</button>
+  </mat-dialog-actions>
+
+</div>

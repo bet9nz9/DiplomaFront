@@ -1,0 +1,36 @@
+<div class="block">
+  <h2 mat-dialog-title>Добавить</h2>
+
+  <mat-form-field style="width: 40vh" [formGroup]="formGroup">
+    <mat-label>Название</mat-label>
+    <input matInput formControlName="nameForm" [(ngModel)]="category.name">
+    <mat-error *ngIf="formGroup.controls['nameForm'].hasError('required')">
+      Это поле <strong>обязательное!</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field style="width: 40vh" [formGroup]="formGroup">
+    <mat-label>Описание</mat-label>
+    <input matInput formControlName="descriptionForm" [(ngModel)]="category.description">
+    <mat-error *ngIf="formGroup.controls['descriptionForm'].hasError('required')">
+      Это поле <strong>обязательное!</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field style="width: 40vh" [formGroup]="formGroup">
+    <mat-label>Важное</mat-label>
+    <mat-select formControlName="importantForm" [(ngModel)]="category.important">
+      <mat-option value="true">true</mat-option>
+      <mat-option value="false">false</mat-option>
+    </mat-select>
+    <mat-error *ngIf="formGroup.controls['importantForm'].hasError('required')">
+      Это поле <strong>обязательное!</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-dialog-actions>
+    <button mat-raised-button mat-dialog-close>Отмена</button>
+    <button mat-raised-button mat-dialog-close (click)="addCategory()" [disabled]="formGroup.invalid">Подтвердить</button>
+  </mat-dialog-actions>
+
+</div>

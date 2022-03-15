@@ -1,0 +1,27 @@
+<div class="block">
+  <h2 mat-dialog-title>Вход/регистрация</h2>
+
+  <mat-form-field style="width: 40vh" [formGroup]="formGroup">
+    <mat-label>Почта</mat-label>
+    <input matInput formControlName="email" [(ngModel)]="user.email">
+    <mat-error *ngIf="formGroup.controls['email'].hasError('email')">
+      Это поле <strong>обязательное!</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field style="width: 40vh" [formGroup]="formGroup">
+    <mat-label>Пароль</mat-label>
+    <input matInput formControlName="password" type="password" [(ngModel)]="user.password">
+    <mat-error *ngIf="formGroup.controls['password'].hasError('required')">
+      Это поле <strong>обязательное!</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <div class="buttons">
+    <mat-dialog-actions>
+      <button mat-raised-button mat-dialog-close>Отмена</button>
+      <button mat-raised-button (click)="openRegistry()">Регистрация</button>
+      <button mat-raised-button [disabled]="formGroup.invalid" (click)="auth()">Войти</button>
+    </mat-dialog-actions>
+  </div>
+</div>

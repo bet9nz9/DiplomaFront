@@ -1,0 +1,26 @@
+<div *ngIf="chartIsReady">
+  <div *ngIf="userAddresses.length > 1" style="width: 40vh; margin-top: 10vh">
+    <mat-label>Выберите адресс</mat-label>
+    <mat-select>
+      <mat-option *ngFor="let address of userAddresses" (click)="getUtilitiesByAddress(address)">
+        {{'дом ' + address.building.id +
+      ', эт.' + address.flat +
+      ', кв.' + address.apartmentNumber}}
+      </mat-option>
+    </mat-select>
+    <p>Текущий адресс: {{'дом ' + currentAddress.building.id +
+    ', эт.' + currentAddress.flat +
+    ', кв.' + currentAddress.apartmentNumber}}</p>
+  </div>
+  <div *ngIf="chartData.length > 0">
+    <ngx-charts-advanced-pie-chart [view]="view" [scheme]="colorScheme" [gradient]="false"
+                                   [results]="chartData" (select)="onSelect($event)">
+    </ngx-charts-advanced-pie-chart>
+  </div>
+  <div *ngIf="chartData.length == 0">
+    <p>Коммунальных услуг не найдено</p>
+  </div>
+</div>
+<div *ngIf="!chartIsReady">
+  <app-wait></app-wait>
+</div>

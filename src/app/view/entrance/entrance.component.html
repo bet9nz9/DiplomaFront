@@ -1,0 +1,91 @@
+<div class = "box">
+
+  <div class="add">
+    <div class="wrapper">
+    <div class="filter">
+      <mat-form-field style="width: 40vh">
+      <mat-label>Поиск</mat-label>
+      <input matInput placeholder="name" [(ngModel)]="findName" (keydown.enter)="currPage = 0; find()">
+      </mat-form-field>
+    </div>
+      <div class="find__button">
+        <mat-form-field style="width: 15vh">
+          <mat-label>Искать по</mat-label>
+          <mat-select [(ngModel)]="findFor">
+            <mat-option value="">Отсутсвует</mat-option>
+            <mat-option value="name">Названию</mat-option>
+            <mat-option value="isActive">Активное</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    <div class="find__button">
+      <button mat-raised-button [disabled]="flexWheel" (click)="currPage = 0; find()">Найти</button>
+    </div>
+    </div>
+    <div class="add__button">
+<!--      <button mat-raised-button (click)="getAll()" [disabled]="flexWheel" style="visibility: hidden">{{entrances.length == totalElements ? actions[1] : actions[0]}}</button>-->
+    <button mat-raised-button (click)="openAddDialog()" [disabled]="flexWheel" *ngIf="isAdmin">Добавить</button>
+    </div>
+  </div>
+
+  <table mat-table [dataSource]="entrances" class="mat-elevation-z8">
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Название</th>
+      <td mat-cell *matCellDef="let entrance"> {{entrance.name}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef>Описание</th>
+      <td mat-cell *matCellDef="let entrance"> {{entrance.description}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="type">
+      <th mat-header-cell *matHeaderCellDef>Тип</th>
+      <td mat-cell *matCellDef="let entrance"> {{entrance.type.name}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="building">
+      <th mat-header-cell *matHeaderCellDef>Дом</th>
+      <td mat-cell *matCellDef="let entrance"> {{entrance.building.name}} </td>
+    </ng-container>
+
+<!--    <ng-container matColumnDef="roleId">-->
+<!--      <th mat-header-cell *matHeaderCellDef>roleId</th>-->
+<!--      <td mat-cell *matCellDef="let entrance"> {{entrance.roleId}} </td>-->
+<!--    </ng-container>-->
+
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef>Статус</th>
+      <td mat-cell *matCellDef="let entrance"> {{entrance.status ? 'Открыт' : 'Закрыт'}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="active">
+      <th mat-header-cell *matHeaderCellDef>Активен/Не активен</th>
+      <td mat-cell *matCellDef="let entrance"> {{entrance.active ? 'Активен' : 'Не активен'}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions" *ngIf="isAdmin || isGuard">
+      <th mat-header-cell  *matHeaderCellDef > Действия </th>
+      <td mat-cell *matCellDef="let row; let entrance">
+        <button mat-icon-button aria-label="Edit">
+          <mat-icon color="primary" [matMenuTriggerFor]="edit">more_vert</mat-icon>
+          <mat-menu #edit="matMenu">
+            <button mat-menu-item (click)="openEditDialog(entrance)" *ngIf="isAdmin">Изменить</button>
+            <button mat-menu-item (click)="setStatus(entrance)">{{entrance.status ? 'Закрыть' : 'Открыть'}}</button>
+          </mat-menu>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+  </table>
+  <mat-paginator length="{{totalElements}}" pageSize="5" [pageSizeOptions]="[1, 5, 10]" (page)="getPaginatorData($event)" [disabled]="flexWheel"></mat-paginator>
+
+  <div class="flex" *ngIf="flexWheel">
+    <mat-spinner></mat-spinner>
+  </div>
+
+</div>

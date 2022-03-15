@@ -1,0 +1,44 @@
+<mat-grid-list cols="4" rowHeight="100px" *ngIf="isAuthority">
+  <mat-grid-tile
+    *ngFor="let tile of tiles"
+    [colspan]="tile.cols"
+    [rowspan]="tile.rows"
+    [style.background]="tile.color">
+    <div *ngIf="tile.text =='Two'" >
+      <div *ngIf="flexWheel">
+        <p class="infoText">Пожалуйста подождите</p>
+        <div class="flex">
+          <mat-spinner></mat-spinner>
+        </div>
+      </div>
+      <div *ngIf="!flexWheel">
+        <p style="justify-self: center">Актуальные уведомления</p>
+        <table mat-table [dataSource]="notifications" class="mat-elevation-z8 tab">
+          <ng-container matColumnDef="title">
+            <th mat-header-cell *matHeaderCellDef>Заголовок</th>
+            <td mat-cell *matCellDef="let notification"> {{notification.title}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="text">
+            <th mat-header-cell *matHeaderCellDef>Текст</th>
+            <td mat-cell *matCellDef="let notification"> {{notification.text}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="action">
+            <th mat-header-cell  *matHeaderCellDef >Действия</th>
+            <td mat-cell *matCellDef="let row; let notification">
+              <button mat-icon-button aria-label="Edit" (click)="openFullNote(notification)">
+                <mat-icon color="primary" >open_in_full</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+      </div>
+    </div>
+    <div *ngIf="tile.text == 'One' && !flexWheel && isUser">
+      <app-ngx-chart [currentUser]="currentUser"></app-ngx-chart>
+    </div>
+  </mat-grid-tile>
+</mat-grid-list>

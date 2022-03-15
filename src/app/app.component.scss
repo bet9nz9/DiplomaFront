@@ -1,0 +1,10 @@
+.page-header {
+  height: 6vh;
+}
+.page-content {
+  min-height: calc(87vh - 3px);
+  position: relative;
+  z-index: 0;
+  padding: .5rem 0 .5rem;
+}
+

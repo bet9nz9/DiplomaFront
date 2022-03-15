@@ -1,0 +1,54 @@
+<div *ngIf="!flexWheel"><mat-spinner></mat-spinner></div>
+<div class="block" *ngIf="flexWheel">
+  <h2 mat-dialog-title>Добавить</h2>
+
+  <mat-form-field style="width: 40vh" [formGroup]="formGroup">
+    <mat-label>Название</mat-label>
+    <input matInput formControlName="nameForm" [(ngModel)]="eKey.name">
+    <mat-error *ngIf="formGroup.controls['nameForm'].hasError('required')">
+      Это поле <strong>обязательное!</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field style="width: 40vh" [formGroup]="formGroup">
+    <mat-label>Описание</mat-label>
+    <input matInput formControlName="descriptionForm" [(ngModel)]="eKey.description">
+    <mat-error *ngIf="formGroup.controls['descriptionForm'].hasError('required')">
+      Это поле <strong>обязательное!</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field style="width: 40vh" [formGroup]="formGroup">
+    <mat-label>Код ключа</mat-label>
+    <input matInput formControlName="keyCodeForm" [(ngModel)]="eKey.keyCode">
+    <mat-error *ngIf="formGroup.controls['keyCodeForm'].hasError('required')">
+      Это поле <strong>обязательное!</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field style="width: 40vh">
+    <mat-label>Пользователь</mat-label>
+    <mat-select [(ngModel)]="eKey.user">
+      <mat-option *ngFor="let user of users" [value]="user">
+        {{user.name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field style="width: 40vh" [formGroup]="formGroup">
+    <mat-label>Активный</mat-label>
+    <mat-select formControlName="activeForm" [(ngModel)]="eKey.isActive">
+      <mat-option value="true">Активный</mat-option>
+      <mat-option value="false">Не активный</mat-option>
+    </mat-select>
+    <mat-error *ngIf="formGroup.controls['activeForm'].hasError('required')">
+      Это поле <strong>обязательное!</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-dialog-actions>
+    <button mat-raised-button mat-dialog-close>Отмена</button>
+    <button mat-raised-button (click)="addEKey()" [disabled]="formGroup.invalid">Подтвердить</button>
+  </mat-dialog-actions>
+
+</div>

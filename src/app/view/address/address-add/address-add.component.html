@@ -1,0 +1,67 @@
+<div *ngIf="!disable">
+  <mat-spinner></mat-spinner>
+</div>
+<div class="block" *ngIf="disable">
+  <h2 mat-dialog-title>Добавить</h2>
+
+  <mat-form-field style="width: 40vh">
+    <mat-label>Дом</mat-label>
+    <input matInput type="text" [disabled]="true" value="{{address.building}}" [(ngModel)]="address.building.name">
+  </mat-form-field>
+
+  <mat-form-field style="width: 40vh" [formGroup]="formGroup">
+    <mat-label>Название</mat-label>
+    <input matInput formControlName="nameForm" [(ngModel)]="address.name">
+    <mat-error *ngIf="formGroup.controls['nameForm'].hasError('required')">
+      Это поле <strong>обязательное!</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field style="width: 40vh" [formGroup]="formGroup">
+    <mat-label>Описание</mat-label>
+    <input matInput formControlName="descriptionForm" [(ngModel)]="address.description">
+    <mat-error *ngIf="formGroup.controls['descriptionForm'].hasError('required')">
+      Это поле <strong>обязательное!</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field style="width: 40vh" [formGroup]="formGroup">
+    <mat-label>Этаж</mat-label>
+    <input matInput formControlName="flat" [(ngModel)]="address.flat">
+    <mat-error>
+      <div *ngIf="formGroup.controls['flat'].hasError('required')">
+        Это поле <strong>обязательное!</strong>
+      </div>
+      <div *ngIf="formGroup.controls['flat'].hasError('pattern')">
+        Этаж должен быть <strong>цифрой!</strong>
+      </div>
+      <div *ngIf="formGroup.controls['flat'].hasError('maxLength')">
+        Максимальная длина <strong>2 символа!</strong>
+      </div>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field style="width: 40vh" [formGroup]="formGroup">
+    <mat-label>Номер квартиры</mat-label>
+    <input matInput formControlName="apartmentNumber" [(ngModel)]="address.apartmentNumber">
+    <mat-error>
+      <div *ngIf="formGroup.controls['apartmentNumber'].hasError('required')">
+        Это поле <strong>обязательное!</strong>
+      </div>
+      <div *ngIf="formGroup.controls['apartmentNumber'].hasError('pattern')">
+        Номер квартиры должен быть <strong>цифрой!</strong>
+      </div>
+      <div *ngIf="formGroup.controls['apartmentNumber'].hasError('maxLength')">
+        Максимальная длина <strong>2 символа!</strong>
+      </div>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-dialog-actions>
+    <button mat-raised-button mat-dialog-close>Отмена</button>
+    <button mat-raised-button (click)="createAddress()" [mat-dialog-close]="true" [disabled]="formGroup.invalid">
+      Подтвердить
+    </button>
+  </mat-dialog-actions>
+
+</div>

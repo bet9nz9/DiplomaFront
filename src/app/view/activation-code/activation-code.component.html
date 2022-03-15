@@ -1,0 +1,5 @@
+<mat-spinner *ngIf="!disable" style="margin-left: auto; margin-right: auto"></mat-spinner>
+<div *ngIf="disable" style="position: center">
+  <p style="text-align: center">{{activationMessage.message}}</p>
+  <p style="text-align: center">Вы будете переадресованы через {{timeToRedirect}} секунд...</p>
+</div>

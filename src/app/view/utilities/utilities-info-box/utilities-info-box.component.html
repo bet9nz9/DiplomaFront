@@ -1,0 +1,23 @@
+<div class="infoBox" *ngIf="requestStatus">
+  <div style="margin-left: 1vh;">
+    <p class="infoText">Адресс:</p>
+    <p class="infoText">Лицевой счет газ:</p>
+    <p class="infoText">{{utilsBankBooks[2].viewValue.bankBook}}</p>
+    <p class="infoText">Лицевой счет електричество:</p>
+    <p class="infoText">{{utilsBankBooks[0].viewValue.bankBook}}</p>
+    <p class="infoText">Лицевой счет вода:</p>
+    <p class="infoText">{{utilsBankBooks[1].viewValue.bankBook}}</p>
+    <p class="infoText">Интернет:</p>
+    <p class="infoText">{{utilsBankBooks[4].viewValue.bankBook}}</p>
+    <p class="infoText">Сумма к оплате:</p>
+    <p class="infoText">{{amountToPayPerMonth}}</p>
+<!--    <p class="infoText">Расчетная сумма на следующий месяц:</p>-->
+<!--    <p class="infoText">{{nextMonthAmountToPay}}</p>-->
+    <p class="infoText">Долг:</p>
+    <ng-template *ngFor="let debt of debts">
+      <div *ngIf="debt !== null">
+        <p class="infoText">{{debt.date+', '+debt.service.name}}</p>
+      </div>
+    </ng-template>
+  </div>
+</div>

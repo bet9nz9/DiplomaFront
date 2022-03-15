@@ -1,0 +1,98 @@
+<div class="flex" *ngIf="!flexWheel">
+  <mat-spinner></mat-spinner>
+</div>
+
+<div class="box" *ngIf="flexWheel">
+  <div class="user-info-box">
+    <mat-form-field appearance="fill">
+      <mat-label>Почта</mat-label>
+      <input matInput [disabled]="disabled" [(ngModel)]="user.email">
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Имя</mat-label>
+      <input matInput [disabled]="disabled" [(ngModel)]="user.name">
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Фамилия</mat-label>
+      <input matInput [disabled]="disabled" [(ngModel)]="user.lastName">
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Отчество</mat-label>
+      <input matInput [disabled]="disabled" [(ngModel)]="user.patronymic">
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Пароль</mat-label>
+      <input type="password" matInput [disabled]="disabled" [(ngModel)]="user.password">
+    </mat-form-field>
+    <div class="buttons-div">
+      <button mat-raised-button color="primary" (click)="edit()" [disabled]="editing" *ngIf="!isGuest">
+        Изменить
+      </button>
+    </div>
+    <div class="flex" *ngIf="editing">
+      <mat-spinner></mat-spinner>
+    </div>
+  </div>
+  <div class="user-edit-box">
+    <mat-accordion>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Электронный ключ
+          </mat-panel-title>
+          <mat-panel-description>
+            Ваши электронные ключи
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <p *ngIf="eKeys.length == 0">У вас пока ещё нет Электронного ключа</p>
+        <p *ngFor="let eKey of eKeys">Код: {{eKey.keyCode}} | Статус: {{eKey.isActive? 'Активен' : 'Не активен'}}  |
+          <button mat-button (click)="editEKey(eKey)" *ngIf="isAdmin">{{eKey.isActive ? 'Отключить' : 'Включить'}}</button>
+        </p>
+        <mat-action-row *ngIf="isAdmin">
+          <button mat-raised-button (click)="openAddDialog()" color="primary">Добавить ключ</button>
+        </mat-action-row>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Роль
+          </mat-panel-title>
+          <mat-panel-description>
+            {{user.role.name}}
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <div *ngIf="isGuest">
+          <p>Ожидайте подтверждение администратора.</p>
+        </div>
+
+        <div *ngIf="isUser">
+          <p>Вы можете посмотреть Входы/Выходы.</p>
+          <p>Можете посмотреть объявления, а также оставить своё.</p>
+          <p>Также вам доступен просмотр комунальных услуг.</p>
+        </div>
+
+        <div *ngIf="isAdmin">
+          <p>Вам доступен весь функционал системы.</p>
+        </div>
+
+        <div *ngIf="isGuard">
+          <p>Вы можете посмотреть Входы/Выходы, а также закрыть или открыть его.</p>
+          <p>Также вы можете просмотреть объявления или оставить своё.</p>
+        </div>
+
+        <mat-action-row *ngIf="isAdmin">
+          <button mat-raised-button color="primary" [matMenuTriggerFor]="trigger">Установить роль</button>
+          <mat-menu #trigger>
+            <button mat-menu-item *ngFor="let role of roles" (click)="roleEdit(role)">{{role.name}}</button>
+          </mat-menu>
+        </mat-action-row>
+      </mat-expansion-panel>
+    </mat-accordion>
+    <div class="flex" *ngIf="roleEditing">
+      <mat-spinner></mat-spinner>
+    </div>
+  </div>
+</div>
+

@@ -1,0 +1,75 @@
+<div class="header">
+
+  <button mat-icon-button color="blanchedalmond" aria-label="Example icon button with a home icon" routerLink="./">
+    <mat-icon>home</mat-icon>
+  </button>
+
+  <nav class="header__nav" *ngIf="isAuthority && isNoGuest">
+    <ul>
+      <li class="header__nav__item">
+        <button mat-button [matMenuTriggerFor]="parking">Входы/Выходы</button>
+      </li>
+      <mat-menu #parking="matMenu">
+        <button mat-menu-item routerLink="/entrances">Входы</button>
+        <button mat-menu-item routerLink="/log">Журнал использования входов</button>
+      </mat-menu>
+      <li class="header__nav__item">
+        <button mat-button [matMenuTriggerFor]="ek" *ngIf="isAdmin">Электронный ключ</button>
+      </li>
+      <mat-menu #ek="matMenu">
+        <button mat-menu-item routerLink="/eKey">Ключи</button>
+      </mat-menu>
+      <li class="header__nav__item">
+        <button mat-button *ngIf="isNoGuest" routerLink="/notifications">Уведомления</button>
+      </li>
+
+      <li class="header__nav__item" *ngIf="isUser">
+        <button mat-button [matMenuTriggerFor]="addresses" [disabled]="addressIsReady">Комунальные услуги</button>
+      </li>
+      <mat-menu #addresses="matMenu">
+        <div *ngIf="noAddresses; else showAddresses">
+          <button mat-menu-item>Нет адресов</button>
+        </div>
+        <ng-template #showAddresses>
+          <div *ngFor="let address of userAddresses">
+            <button mat-menu-item [routerLink]="['/utilities', address.id]">{{'дом ' + address.building.id +
+            ', эт.' + address.flat +
+            ', кв.' + address.apartmentNumber}}</button>
+          </div>
+        </ng-template>
+      </mat-menu>
+
+      <li *ngIf="isAdmin" class="header__nav__item">
+        <button mat-button [matMenuTriggerFor]="address">Адреса</button>
+      </li>
+      <mat-menu #address="matMenu">
+        <div *ngFor="let building of buildings">
+          <button mat-menu-item [routerLink]="['/address', building.id]">Дом {{building.name}}</button>
+        </div>
+      </mat-menu>
+
+      <li *ngIf="isAdmin" class="header__nav__item">
+        <button mat-button routerLink="/users">Пользователи</button>
+      </li>
+    </ul>
+  </nav>
+  <div *ngIf="authService.isLogin()">{{getCurrentUser()}}</div>
+  <div *ngIf="authService.isLogin(); else elseBlock">
+    <div class="auth__btn__container">
+      <button mat-icon-button [matMenuTriggerFor]="userMenu">
+        <mat-icon>account_circle</mat-icon>
+      </button>
+      <mat-menu #userMenu>
+        <button mat-menu-item [routerLink]="['/userProfile', currentUser.id]" [disabled]="currentUser.id === undefined">
+          Личный кабинет
+        </button>
+        <button mat-menu-item routerLink="./" (click)="authService.logout(); redirect()">Выйти</button>
+      </mat-menu>
+    </div>
+  </div>
+  <ng-template #elseBlock>
+    <div class="auth__btn__container">
+      <button mat-button class="auth__btn" (click)="openAuthDialog()">Вход / Регистрация</button>
+    </div>
+  </ng-template>
+</div>

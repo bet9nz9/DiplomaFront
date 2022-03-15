@@ -1,0 +1,89 @@
+<div *ngIf="!disable">
+  <mat-spinner></mat-spinner>
+</div>
+<div class="block" *ngIf="disable">
+  <h2 mat-dialog-title>Изменить</h2>
+
+  <mat-form-field style="width: 40vh">
+    <mat-label>К оплате</mat-label>
+    <input matInput type="number" [disabled]="true" value="{{utility.amountToPay}}" [(ngModel)]="utility.amountToPay">
+  </mat-form-field>
+
+  <mat-form-field style="width: 40vh">
+    <mat-label>Статус</mat-label>
+    <input matInput type="text" [disabled]="true" value="{{utility.status}}" [(ngModel)]="utility.status">
+  </mat-form-field>
+
+  <div *ngIf="!isAdmin; else disabledEdit">
+    <mat-form-field style="width: 40vh">
+      <mat-label>Показания в начале месяца</mat-label>
+      <input matInput type="number" [disabled]="true" value="{{utility.startMonthReading}}" [(ngModel)]="utility.startMonthReading">
+    </mat-form-field>
+  </div>
+  <ng-template #disabledEdit>
+    <mat-form-field style="width: 40vh" [formGroup]="formGroup">
+      <mat-label>Показания в начале месяца</mat-label>
+      <input matInput formControlName="startMonthReading"  value="{{utility.startMonthReading}}"
+             [(ngModel)]="utility.startMonthReading">
+      <mat-error>
+        <div *ngIf="formGroup.controls['startMonthReading'].hasError('required')">
+          Это поле <strong>обязательное</strong>
+        </div>
+        <div *ngIf="formGroup.controls['startMonthReading'].hasError('pattern')">
+          Показания в начале месяца должны быть <strong>цифрой!</strong>
+        </div>
+      </mat-error>
+    </mat-form-field>
+  </ng-template>
+
+  <div *ngIf="utility.endMonthReading !== null; else elseBlock">
+    <mat-form-field style="width: 40vh">
+      <mat-label>Показания в конце месяца</mat-label>
+      <input matInput type="number" [disabled]="true" value="{{utility.endMonthReading}}" [(ngModel)]="utility.endMonthReading">
+    </mat-form-field>
+  </div>
+  <ng-template #elseBlock>
+    <mat-form-field style="width: 40vh" [formGroup]="formGroup">
+      <mat-label>Показания в конце месяца</mat-label>
+      <input matInput formControlName="endMonthReading"  value="{{utility.endMonthReading}}"
+             [(ngModel)]="utility.endMonthReading">
+      <mat-error>
+        <div *ngIf="formGroup.controls['endMonthReading'].hasError('required')">
+          Это поле <strong>обязательное</strong>
+        </div>
+        <div *ngIf="formGroup.controls['endMonthReading'].hasError('pattern')">
+          Показания в конце месяца должны быть <strong>цифрой!</strong>
+        </div>
+      </mat-error>
+    </mat-form-field>
+  </ng-template>
+
+  <mat-form-field style="width: 40vh">
+    <mat-label>Фото</mat-label>
+    <input matInput type="text" value="{{utility.photoURL}}" [(ngModel)]="utility.photoURL">
+  </mat-form-field>
+
+  <mat-form-field style="width: 40vh" [formGroup]="formGroup">
+    <mat-label>Название</mat-label>
+    <input matInput formControlName="name" value="{{utility.name}}" [(ngModel)]="utility.name">
+    <mat-error *ngIf="formGroup.controls['name'].hasError('required')">
+      Это поле <strong>обязательное</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field style="width: 40vh" [formGroup]="formGroup">
+    <mat-label>Описание</mat-label>
+    <input matInput formControlName="description" value="{{utility.description}}" [(ngModel)]="utility.description">
+    <mat-error *ngIf="formGroup.controls['description'].hasError('required')">
+      Это поле <strong>обязательное</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-dialog-actions>
+    <button mat-raised-button mat-dialog-close>Отмена</button>
+    <button mat-raised-button (click)="updateUtility()" [mat-dialog-close]="closeDialog" [disabled]="formGroup.invalid">
+      Подтвердить
+    </button>
+  </mat-dialog-actions>
+
+</div>
