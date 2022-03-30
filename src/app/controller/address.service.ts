@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Address} from "../model/address";
 import {PortService} from './port.service';
@@ -24,26 +24,28 @@ export class AddressService extends PortService{
 
   url = 'http://localhost:' + this.port + '/address';
 
-  getAddressesByBuildingId(pageNumber: number, size: number, buildingId: number): Observable<Address> {
-    if (pageNumber !== null && size !== null) {
-      return this.http.get<Address>(this.url + '?page=' + pageNumber + '&size=' + size +
-        '&' + 'building==' + buildingId, {headers: this.httpHeaders});
-    } else {
-      return this.http.get<Address>(this.url + '?building==' + buildingId, {headers: this.httpHeaders});
-    }
-
+  getAddressesByBuildingId(params: HttpParams): Observable<Address> {
+    return this.http.get<Address>(this.url, {headers: this.httpHeaders, params: params});
+    // if (pageNumber !== null && size !== null) {
+    //   return this.http.get<Address>(this.url + '?page=' + pageNumber + '&size=' + size +
+    //     '&' + 'building==' + buildingId, {headers: this.httpHeaders});
+    // } else {
+    //   return this.http.get<Address>(this.url + '?building==' + buildingId, {headers: this.httpHeaders});
+    // }
   }
 
-  getAddressesByUser(userId: number): Observable<Address>{
-    return this.http.get<Address>(this.url + '?user==' + userId, {headers: this.httpHeaders});
+  getAddressesByUser(params: HttpParams): Observable<Address>{
+    return this.http.get<Address>(this.url, {headers: this.httpHeaders, params: params});
+    // return this.http.get<Address>(this.url + '?user==' + userId, {headers: this.httpHeaders});
   }
 
-  search(pageNumber: number, size: number, buildingId: number, search: string): Observable<Address> {
-    if (search === null) {
-      return this.http.get<Address>(this.url + '?building==' + buildingId, {headers: this.httpHeaders});
-    } else {
-      return this.http.get<Address>(this.url + '?building==' + buildingId + search, {headers: this.httpHeaders});
-    }
+  search(params: HttpParams): Observable<Address> {
+    return this.http.get<Address>(this.url, {headers: this.httpHeaders, params: params});
+    // if (search === null) {
+    //   return this.http.get<Address>(this.url + '?building==' + buildingId, {headers: this.httpHeaders});
+    // } else {
+    //   return this.http.get<Address>(this.url + '?building==' + buildingId + search, {headers: this.httpHeaders});
+    // }
   }
 
   updateAddress(body: Address): Observable<any> {

@@ -3,6 +3,7 @@ import {AddressService} from '../../../controller/address.service';
 import {Address} from '../../../model/address';
 import {User} from '../../../model/user';
 import {UtilitiesService} from '../../../controller/utilities.service';
+import {HttpParams} from "@angular/common/http";
 
 interface ChartData {
   name: string;
@@ -24,9 +25,11 @@ export class NgxChartComponent implements OnInit {
   @Input() currentUser = new User(null);
   chartIsReady = false;
   currentAddress: Address;
+  params: HttpParams;
 
   ngOnInit(): void {
-    this.addressesService.getAddressesByUser(this.currentUser.id).subscribe((response) => {
+    this.params = this.params.append('userId', this.currentUser.id.toString());
+    this.addressesService.getAddressesByUser(this.params).subscribe((response) => {
       // @ts-ignore
       this.userAddresses = response.content;
       this.getUtilitiesByAddress(this.userAddresses[0]);
@@ -56,7 +59,11 @@ export class NgxChartComponent implements OnInit {
     this.chartIsReady = false;
     let newChartData: ChartData[] = [];
     let i = 0;
-    this.utilitiesService.getData(0, 5, 'address==' + address.id, 0)
+    this.params = this.params.append('page', '0')
+      .append('size', '5')
+      .append('address', this.currentAddress.id.toString())
+      .append('serviceId', '0');
+    this.utilitiesService.getData(this.params)
       .subscribe((response) => {
         console.log(response);
         // @ts-ignore

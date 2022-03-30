@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {PortService} from './port.service';
 import {Ekey} from '../model/ekey';
@@ -20,13 +20,14 @@ export class EKeyService extends PortService {
 
   url = 'http://localhost:' + this.port + '/keys';
 
-  getEKeyByUserId(userId: number): Observable<Ekey> {
-    return  this.http.get<Ekey>(this.url + '?userId==' + userId, {headers: this.httpHeaders});
+  getEKeyByUserId(params: HttpParams): Observable<Ekey> {
+    return  this.http.get<Ekey>(this.url, {headers: this.httpHeaders, params: params});
   }
 
-  getData(pageNumber: number, size: number): Observable<Ekey> {
-    if (pageNumber === 0 && size === 0) { return this.http.get<Ekey>(this.url, {headers: this.httpHeaders}); }
-    return this.http.get<Ekey>(this.url + '?page=' + pageNumber + '&size=' + size, {headers: this.httpHeaders});
+  getData(params: HttpParams): Observable<Ekey> {
+    return this.http.get<Ekey>(this.url, {headers: this.httpHeaders, params: params})
+    // if (pageNumber === 0 && size === 0) { return this.http.get<Ekey>(this.url, {headers: this.httpHeaders}); }
+    // return this.http.get<Ekey>(this.url + '?page=' + pageNumber + '&size=' + size, {headers: this.httpHeaders});
   }
 
   addKey(body: Ekey): Observable<Ekey> {
@@ -37,8 +38,9 @@ export class EKeyService extends PortService {
     return this.http.put<Ekey>(this.url, body, {headers: this.httpHeaders});
   }
 
-  findWithParam(param: string, name: string, size: number, page: number): Observable<Ekey> {
-    return this.http.get<Ekey>(this.url + '?size=' + size + '&' + param + '=' + name + '&page=' + page, {headers: this.httpHeaders});
+  findWithParam(params: HttpParams): Observable<Ekey> {
+    return this.http.get<Ekey>(this.url, {headers: this.httpHeaders, params: params})
+    //return this.http.get<Ekey>(this.url + '?size=' + size + '&' + param + '=' + name + '&page=' + page, {headers: this.httpHeaders});
   }
 
   getOne(eKeyId: number): Observable<Ekey> {

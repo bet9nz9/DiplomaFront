@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {UtilitiesService} from "../../../controller/utilities.service";
 import {Utility} from "../../../model/utility";
+import {HttpParams} from "@angular/common/http";
 
 interface Util {
   value: number;
@@ -24,6 +25,7 @@ export class UtilitiesInfoBoxComponent implements OnInit {
   amountToPayPerMonth = 0;
   nextMonthAmountToPay = 0;
   debts: Utility[];
+  params: HttpParams;
 
   utilsBankBooks: Util[];
 
@@ -32,12 +34,15 @@ export class UtilitiesInfoBoxComponent implements OnInit {
   }
 
   getLastUtilities(): void {
+    this.params = this.params.append('page', '0')
+      .append('size', '5')
+      .append('sort', 'dateAndTime:ASC');
     let date = new Date();
-    let currentMonth = 'date=' + date.getTime();
+    let currentMonth = date.getTime().toString();
     date.setDate(date.getMonth() - 1);
     // let lastMonth = 'date=' + date.getTime();
-    let lastMonth = 'sort=date:ASC';
-    this.httpServer.getData(0, 5, lastMonth, null).subscribe(
+    //let lastMonth = 'sort=date:ASC';
+    this.httpServer.getData(this.params).subscribe(
       (response) => {
         // @ts-ignore
         let util = response.content;
@@ -53,7 +58,8 @@ export class UtilitiesInfoBoxComponent implements OnInit {
         ];
         console.log(this.utilsBankBooks);
 
-        this.httpServer.getData(null, null, currentMonth, null).subscribe(
+        let parameter = new HttpParams().append('dateAndTime', currentMonth);
+        this.httpServer.getData(parameter).subscribe(
           (response) => {
             //@ts-ignore
             let utils = response.content;
@@ -74,9 +80,11 @@ export class UtilitiesInfoBoxComponent implements OnInit {
   }
 
   getDebt(): void{
-    let search = 'address=='+this.addressId+'&status=false';
+    this.params = this.params.append('address', this.addressId.toString())
+      .append('status', 'false');
+    //let search = 'address=='+this.addressId+'&status=false';
 
-    this.httpServer.getData(null, null, search, null).subscribe((response) => {
+    this.httpServer.getData(this.params).subscribe((response) => {
       // @ts-ignore
       this.debts = this.parseDate(response.content);
       console.log(this.debts);

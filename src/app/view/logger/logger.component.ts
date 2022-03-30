@@ -5,6 +5,7 @@ import {PageEvent} from '@angular/material/paginator';
 import {Logger} from '../../model/logger';
 import {LoggerService} from "../../controller/logger.service";
 import {DatePipe} from "@angular/common";
+import {HttpParams} from "@angular/common/http";
 
 
 @Component({
@@ -32,6 +33,7 @@ export class LoggerComponent implements OnInit {
   actions: string[] = ['Вывести всё', 'Вернуть'];
   findFor = '';
   exportedLog: Logger[];
+  params: HttpParams;
 
   ngOnInit(): void{
     this.getData();
@@ -43,16 +45,20 @@ export class LoggerComponent implements OnInit {
 
   getData(): void {
     let search = null;
+    this.params = this.params.append('page', this.currPage.toString())
+      .append('size', this.currSize.toString());
     if (this.searchParameter !== '') {
       if (this.searchField === 'dateFrom' || this.searchField === 'dateTo') {
         let date = new Date(this.searchParameter);
+        this.params = this.params.append(this.searchField, date.getTime().toString());
         search = this.searchField + '=' + date.getTime();
       } else {
+        this.params = this.params.append(this.searchField, this.searchParameter);
         search = this.searchField + "=" + this.searchParameter;
       }
     }
       this.flexWheel = true;
-      this.httpService.getData(this.currPage, this.currSize,search ).subscribe(
+      this.httpService.getData(this.params).subscribe(
         (response) => {
           // @ts-ignore
           this.loggers = this.parseDate(response.content);

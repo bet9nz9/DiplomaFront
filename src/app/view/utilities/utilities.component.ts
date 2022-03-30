@@ -9,6 +9,7 @@ import {UtilityEditComponentWithoutReading} from "./utilities-table-without-read
 import {UtilitiesInfoBoxComponent} from "./utilities-info-box/utilities-info-box.component";
 import {ActivatedRoute} from "@angular/router";
 import {UtilitiesAddComponent} from "./utilities-add/utilities-add.component";
+import {HttpParams} from "@angular/common/http";
 
 @Component({
   selector: 'app-utilities',
@@ -41,6 +42,7 @@ export class UtilitiesComponent implements OnInit {
   addressId: number;
 
   searchField = '';
+  params: HttpParams;
 
   date: Date;
 
@@ -50,20 +52,25 @@ export class UtilitiesComponent implements OnInit {
   }
 
   getData(): void {
+    this.params = this.params.append('page', this.currPage.toString())
+      .append('size', this.currSize.toString());
     this.addressId = +this.activatedRoute.snapshot.paramMap.get('addressId');
-    let search = null;
+    //let search = null;
     if (this.searchParameter !== '') {
       if (this.searchField === 'dateFrom' || this.searchField === 'dateTo') {
         let date = new Date(this.searchParameter);
-        search = this.searchField + '=' + new Date(date.getFullYear(), date.getMonth(), 1).getTime();
+        this.params = this.params.append(this.searchField, new Date(date.getFullYear(), date.getMonth(), 1).getTime().toString());
+        //search = this.searchField + '=' + new Date(date.getFullYear(), date.getMonth(), 1).getTime();
       } else {
-        search = this.searchField + "=" + this.searchParameter;
+        this.params = this.params.append(this.searchField, this.searchParameter);
+        //search = this.searchField + "=" + this.searchParameter;
       }
     } else if (!isNaN(this.addressId)) {
-      search = 'address==' + this.addressId;
+      this.params = this.params.append('address', this.addressId.toString());
+      //search = 'address==' + this.addressId;
     }
     this.flexWheel = true;
-    this.httpServer.getData(this.currPage, this.currSize, search, this.serviceId).subscribe(
+    this.httpServer.getData(this.params).subscribe(
       (response) => {
         // @ts-ignore
         this.utilities = this.parseDate(response.content);

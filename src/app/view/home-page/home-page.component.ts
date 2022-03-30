@@ -6,6 +6,7 @@ import {MatDialog} from '@angular/material/dialog';
 import {ViewNoteComponent} from '../notifications/view-note/view-note.component';
 import {AuthService} from '../../controller/auth.service';
 import {User} from '../../model/user';
+import {HttpParams} from "@angular/common/http";
 
 export interface Tile {
   color: string;
@@ -55,7 +56,10 @@ export class HomePageComponent implements OnInit {
   }
 
   getNotes(): void {
-    this.httpService.getData(0, 5, '&sort=date:DESC').subscribe(
+    let params = new HttpParams().append('page', '0')
+      .append('size', '5')
+      .append('sort', 'date:DESC');
+    this.httpService.getData(params).subscribe(
       (response) => {
         // @ts-ignore
         this.notifications = this.getShortNote(response.content);

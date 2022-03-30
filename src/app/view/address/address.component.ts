@@ -6,6 +6,7 @@ import {PageEvent} from '@angular/material/paginator';
 import {MatDialog} from '@angular/material/dialog';
 import {AddressEditComponent} from './address-edit/address-edit.component';
 import {AddressAddComponent} from './address-add/address-add.component';
+import {HttpParams} from "@angular/common/http";
 
 @Component({
   selector: 'app-address',
@@ -26,7 +27,7 @@ export class AddressComponent implements OnInit {
   searchField = '';
 
   isAdmin: boolean;
-
+  params: HttpParams;
   buildingId: number;
   addresses: Address[];
   flexWheel: boolean;
@@ -41,8 +42,11 @@ export class AddressComponent implements OnInit {
   }
 
   getData(): void {
+    this.params = this.params.append('page', this.currPage.toString())
+      .append('size', this.currSize.toString())
+      .append('buildingId', this.buildingId.toString());
     this.flexWheel = true;
-    this.httpServer.getAddressesByBuildingId(this.currPage, this.currSize, this.buildingId).subscribe(
+    this.httpServer.getAddressesByBuildingId(this.params).subscribe(
       (response) => {
         // @ts-ignore
         this.addresses = response.content;
@@ -57,20 +61,26 @@ export class AddressComponent implements OnInit {
   }
 
   search(): void {
-    let searchString;
-    if (this.searchField === '') {
-      searchString = null;
-    } else if (this.searchParameter === '') {
-      searchString = null;
-    } else {
-      if (this.searchField === 'flat' || this.searchField === 'apartmentNumber') {
-        searchString = '&' + this.searchField + '==' + this.searchParameter;
-      } else {
-        searchString = '&' + this.searchField + '=' + this.searchParameter;
-      }
-    }
+    this.params = this.params.append(this.searchField, this.searchParameter)
+      .append('page', this.currPage.toString())
+      .append('size', this.currSize.toString())
+      .append('buildingId', this.buildingId.toString());
 
-    this.httpServer.search(this.currPage, this.currSize, this.buildingId, searchString).subscribe(
+    //TODO: DELETE
+    // let searchString;
+    // if (this.searchField === '') {
+    //   searchString = null;
+    // } else if (this.searchParameter === '') {
+    //   searchString = null;
+    // } else {
+    //   if (this.searchField === 'flat' || this.searchField === 'apartmentNumber') {
+    //     searchString = '&' + this.searchField + '==' + this.searchParameter;
+    //   } else {
+    //     searchString = '&' + this.searchField + '=' + this.searchParameter;
+    //   }
+    // }
+
+    this.httpServer.search(this.params).subscribe(
       (response) => {
         // @ts-ignore
         this.addresses = response.content;

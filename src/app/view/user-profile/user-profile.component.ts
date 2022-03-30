@@ -9,6 +9,7 @@ import {User} from '../../model/user';
 import {EkeyAddComponent} from '../ekey/ekey-add/ekey-add.component';
 import {MatDialog} from '@angular/material/dialog';
 import {WaitComponent} from '../wait/wait.component';
+import {HttpParams} from "@angular/common/http";
 
 @Component({
   selector: 'app-user-profile',
@@ -48,7 +49,8 @@ export class UserProfileComponent implements OnInit {
             console.log('error occupied : ' + error);
           }
         );
-        this.eKeyService.getEKeyByUserId(this.userId).subscribe(
+        let param = new HttpParams().append('userId', this.userId.toString());
+        this.eKeyService.getEKeyByUserId(param).subscribe(
           (response) =>
           {
             // @ts-ignore

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Notifications } from '../model/notifications';
 import {PortService} from './port.service';
@@ -27,18 +27,17 @@ export class NotificationService extends PortService{
   addNotification(body: Notifications): Observable<any> {
     return this.http.post<Notifications>(this.url + '/add', body, {headers: this.httpHeaders});
   }
-  getData(pageNumber: number, size: number, searchParameter: string): Observable<Notifications> {
-    if (pageNumber === 0 && size === 0) {
-      return this.http.get<Notifications>(this.url, {headers: this.httpHeaders});
-    }
-    // tslint:disable-next-line:max-line-length
-    return this.http.get<Notifications>(this.url + '?page=' + pageNumber + '&size=' + size + '&dateFrom=' + searchParameter, {headers: this.httpHeaders});
+
+  getData(params: HttpParams): Observable<Notifications> {
+    return this.http.get<Notifications>(this.url, {headers: this.httpHeaders, params: params});
   }
+
   // tslint:disable-next-line:typedef
-  getDataBy(search: string, pageNumber: number, size: number){
+  getDataBy(params: HttpParams){
     // tslint:disable-next-line:max-line-length
-      return this.http.get<Notifications>(this.url + '?page=' + pageNumber + '&size=' + size + '&' + search, {headers: this.httpHeaders});
+      return this.http.get<Notifications>(this.url, {headers: this.httpHeaders, params: params});
   }
+
   getOneEntrance(id: number): Observable<Notifications> {
     return this.http.get<Notifications>(this.url + '/get-one/' + id, {headers: this.httpHeaders});
   }

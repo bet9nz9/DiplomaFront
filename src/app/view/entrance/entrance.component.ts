@@ -5,6 +5,7 @@ import {PageEvent} from '@angular/material/paginator';
 import {MatDialog} from '@angular/material/dialog';
 import {EditDialogComponent} from './edit-dialog/edit-dialog.component';
 import {AddDialogComponent} from './add-dialog/add-dialog.component';
+import {HttpParams} from "@angular/common/http";
 
 
 @Component({
@@ -28,6 +29,7 @@ export class EntranceComponent implements OnInit {
   findFor = '';
   isGuard: boolean;
   isAdmin: boolean;
+  params: HttpParams;
 
   ngOnInit(): void{
     this.find();
@@ -61,25 +63,11 @@ export class EntranceComponent implements OnInit {
   }
 
   find(): void {
-    if (this.findName === '') {
-      this.flexWheel = true;
-      this.httpService.getData(this.currPage, this.currSize).subscribe(
-        (response) =>
-        {
-          // @ts-ignore
-          this.entrances = response.content;
-          // @ts-ignore
-          this.totalElements = parseInt(response.totalElements);
-          this.flexWheel = false;
-        },
-        (error) =>
-        {
-          console.log('error occupied : ' + error);
-        }
-      );
-    } else {
-      this.flexWheel = true;
-      this.httpService.findWithParam(this.findFor, this.findName, this.currSize, this.currPage).subscribe(
+    this.params = this.params.append('page', this.currPage.toString())
+      .append('size', this.currSize.toString())
+      .append(this.findFor, this.findName);
+
+    this.httpService.getData(this.params).subscribe(
       (response) =>
       {
         // @ts-ignore
@@ -92,8 +80,41 @@ export class EntranceComponent implements OnInit {
       {
         console.log('error occupied : ' + error);
       }
-      );
-    }
+    );
+
+    // if (this.findName === '') {
+    //   this.flexWheel = true;
+    //   this.httpService.getData(this.currPage, this.currSize).subscribe(
+    //     (response) =>
+    //     {
+    //       // @ts-ignore
+    //       this.entrances = response.content;
+    //       // @ts-ignore
+    //       this.totalElements = parseInt(response.totalElements);
+    //       this.flexWheel = false;
+    //     },
+    //     (error) =>
+    //     {
+    //       console.log('error occupied : ' + error);
+    //     }
+    //   );
+    // } else {
+    //   this.flexWheel = true;
+    //   this.httpService.findWithParam(this.findFor, this.findName, this.currSize, this.currPage).subscribe(
+    //   (response) =>
+    //   {
+    //     // @ts-ignore
+    //     this.entrances = response.content;
+    //     // @ts-ignore
+    //     this.totalElements = parseInt(response.totalElements);
+    //     this.flexWheel = false;
+    //   },
+    //   (error) =>
+    //   {
+    //     console.log('error occupied : ' + error);
+    //   }
+    //   );
+    // }
   }
 
 

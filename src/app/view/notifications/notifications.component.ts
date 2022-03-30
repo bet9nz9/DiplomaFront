@@ -6,12 +6,12 @@ import {NotificationService} from '../../controller/notification.service';
 import {DatePipe} from '@angular/common';
 import {ViewNoteComponent} from './view-note/view-note.component';
 import {AddDialogNotificationComponent} from './add-notification/add-dialog-notification.component';
-import {AddDialogCategory} from '../category/add-category/add-dialog-category.component';
 import {User} from '../../model/user';
 import {AuthService} from '../../controller/auth.service';
 import {Category} from '../../model/category';
 import {CategoryService} from '../../controller/category.service';
 import {DialogCategory} from '../category/category.component';
+import {HttpParams} from "@angular/common/http";
 
 @Component({
   selector: 'app-notifications',
@@ -35,6 +35,7 @@ export class NotificationsComponent implements OnInit {
   categories: Category[];
   categoryName: string;
   searchByCategory: string;
+  params:  HttpParams;
 
   ngOnInit(): void {
     this.getCurrentUser();
@@ -49,20 +50,21 @@ export class NotificationsComponent implements OnInit {
   }
 
   find(): void {
-    let search;
     if (this.myNotifications) {
-      search = 'createdBy==' + this.currentUser.id;
+      this.params = this.params.append('createdBy', this.currentUser.id.toString());
     }
+
     if (this.currentSorting) {
-      search = search + '&sort=date:ASC';
+      this.params = this.params.append('sort', 'dateAndTime:ASC');
     } else {
-      search = search + '&sort=date:DESC';
+      this.params = this.params.append('sort', 'dateAndTime:DESC');
     }
-    if (this.searchByCategory !== null) {
-      search = search + '&' + this.searchByCategory;
-    }
+
+    this.params = this.params.append('page', this.currPage.toString())
+      .append('size', this.currSize.toString());
+
     this.flexWheel = true;
-    this.httpService.getDataBy(search, this.currPage, this.currSize).subscribe(
+    this.httpService.getDataBy(this.params).subscribe(
       (response) => {
         // @ts-ignore
         this.notifications = this.dateConversion(response.content);
@@ -94,10 +96,8 @@ export class NotificationsComponent implements OnInit {
   categoryChange(): void {
     for (let i = 0; i < this.categories.length; i++) {
       if (this.categories[i].name === this.categoryName) {
-        this.searchByCategory = 'categoryId==' + this.categories[i].id;
+        this.params = this.params.append('categoryId', this.categories[i].id.toString())
         break;
-      } else {
-        this.searchByCategory = null;
       }
     }
     this.find();

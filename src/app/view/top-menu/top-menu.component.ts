@@ -8,6 +8,7 @@ import {User} from '../../model/user';
 import {Address} from "../../model/address";
 import {AddressService} from "../../controller/address.service";
 import {Router} from "@angular/router";
+import {HttpParams} from "@angular/common/http";
 
 
 @Component({
@@ -33,6 +34,7 @@ export class TopMenuComponent implements OnInit {
   userAddresses: Address[];
   noAddresses: boolean;
   addressIsReady: boolean = true;
+  params: HttpParams;
 
   ngOnInit(): void {
     this.isAuthority = localStorage.getItem('Authorization') !== null;
@@ -65,7 +67,9 @@ export class TopMenuComponent implements OnInit {
   }
 
   getUserAddresses(): void{
-    this.addressesService.getAddressesByUser(this.currentUser.id).subscribe((response) => {
+    this.params = this.params.append('userId', this.currentUser.id.toString());
+
+    this.addressesService.getAddressesByUser(this.params).subscribe((response) => {
       // @ts-ignore
       this.userAddresses = response.content;
       this.addressIsReady = false;

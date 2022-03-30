@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Logger } from '../model/logger';
 import {PortService} from "./port.service";
@@ -47,17 +47,18 @@ export class LoggerService extends PortService{
     });
   }
 
-  getData(pageNumber: number, size: number,searchParameter: string): Observable<Logger> {
-    if (pageNumber === 0 && size === 0) {
-      return this.http.get<Logger>(this.url);
-    }
-    if (searchParameter != ''){
-      return this.http.get<Logger>(this.url + '?' + searchParameter, {headers: this.httpHeaders});
-    }
-    if (searchParameter !== ''){
-      return this.http.get<Logger>(this.url + '?page=' + pageNumber + '&size=' + size + '&' + searchParameter, {headers: this.httpHeaders});
-    }
-    return this.http.get<Logger>(this.url + '?page=' + pageNumber + '&size=' + size, {headers: this.httpHeaders});
+  getData(params: HttpParams): Observable<Logger> {
+    return  this.http.get<Logger>(this.url, {headers: this.httpHeaders, params: params});
+    // if (pageNumber === 0 && size === 0) {
+    //   return this.http.get<Logger>(this.url);
+    // }
+    // if (searchParameter != ''){
+    //   return this.http.get<Logger>(this.url + '?' + searchParameter, {headers: this.httpHeaders});
+    // }
+    // if (searchParameter !== ''){
+    //   return this.http.get<Logger>(this.url + '?page=' + pageNumber + '&size=' + size + '&' + searchParameter, {headers: this.httpHeaders});
+    // }
+    // return this.http.get<Logger>(this.url + '?page=' + pageNumber + '&size=' + size, {headers: this.httpHeaders});
   }
 
   getOneLogger(id: number): Observable<Logger> {

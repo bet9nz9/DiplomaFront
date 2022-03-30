@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Entrance} from '../model/entrance';
 import {PortService} from './port.service';
@@ -24,11 +24,17 @@ export class EntranceService extends PortService {
 
   url = 'http://localhost:' + this.port + '/entrance';
 
-  getData(pageNumber: number, size: number): Observable<Entrance> {
-    if (pageNumber === 0 && size === 0) {
-      return this.http.get<Entrance>(this.url, {headers: this.httpHeaders});
-    }
-    return this.http.get<Entrance>(this.url + '?page=' + pageNumber + '&size=' + size, {headers: this.httpHeaders});
+  getData(params: HttpParams): Observable<Entrance> {
+    return  this.http.get<Entrance>(this.url, {headers: this.httpHeaders, params: params});
+    // if (pageNumber === 0 && size === 0) {
+    //   return this.http.get<Entrance>(this.url, {headers: this.httpHeaders});
+    // }
+    // return this.http.get<Entrance>(this.url + '?page=' + pageNumber + '&size=' + size, {headers: this.httpHeaders});
+  }
+
+  findWithParam(params: HttpParams): Observable<Entrance> {
+    return  this.http.get<Entrance>(this.url, {headers: this.httpHeaders, params: params});
+    //return this.http.get<Entrance>(this.url + '?size=' + size + '&' + param + '=' + name + '&page=' + page, {headers: this.httpHeaders});
   }
 
   addEntrance(body: Entrance): Observable<any> {
@@ -37,10 +43,6 @@ export class EntranceService extends PortService {
 
   updateEntrance(body: Entrance): Observable<Entrance> {
     return this.http.put<Entrance>(this.url, body, {headers: this.httpHeaders});
-  }
-
-  findWithParam(param: string, name: string, size: number, page: number): Observable<Entrance> {
-    return this.http.get<Entrance>(this.url + '?size=' + size + '&' + param + '=' + name + '&page=' + page, {headers: this.httpHeaders});
   }
 
   getOneEntrance(id: number): Observable<Entrance> {

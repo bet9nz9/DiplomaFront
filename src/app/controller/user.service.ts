@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {User} from '../model/user';
 import {PortService} from './port.service';
@@ -28,15 +28,17 @@ export class UserService extends PortService {
     return this.http.get<User>(this.url, {headers: this.httpHeaders});
   }
 
-  getAllWithPagination(pageNumber: number, size: number): Observable<User> {
-    if (pageNumber === 0 && size === 0) {
-      return this.http.get<User>(this.url, {headers: this.httpHeaders});
-    }
-    return this.http.get<User>(this.url + '?page=' + pageNumber + '&size=' + size, {headers: this.httpHeaders});
+  getAllWithPagination(params: HttpParams): Observable<User> {
+    return  this.http.get<User>(this.url, {headers: this.httpHeaders, params: params});
+    // if (pageNumber === 0 && size === 0) {
+    //   return this.http.get<User>(this.url, {headers: this.httpHeaders});
+    // }
+    // return this.http.get<User>(this.url + '?page=' + pageNumber + '&size=' + size, {headers: this.httpHeaders});
   }
 
-  findWithParam(param: string, name: string, size: number, page: number): Observable<User> {
-    return this.http.get<User>(this.url + '?size=' + size + '&' + param + '=' + name + '&page=' + page, {headers: this.httpHeaders});
+  findWithParam(params: HttpParams): Observable<User> {
+    return  this.http.get<User>(this.url, {headers: this.httpHeaders, params: params});
+    //return this.http.get<User>(this.url + '?size=' + size + '&' + param + '=' + name + '&page=' + page, {headers: this.httpHeaders});
   }
 
   getById(id: number): Observable<User> {

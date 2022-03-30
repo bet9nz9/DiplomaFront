@@ -5,6 +5,7 @@ import {User} from '../../model/user';
 import {PageEvent} from '@angular/material/paginator';
 import {SubmitComponent} from '../submit/submit.component';
 import {WaitComponent} from '../wait/wait.component';
+import {HttpParams} from "@angular/common/http";
 
 @Component({
   selector: 'app-users',
@@ -20,6 +21,7 @@ export class UsersComponent implements OnInit {
   currSize = 5;
   totalElements: number;
   users: User[] = [];
+  params: HttpParams;
 
   constructor(public userService: UserService, public dialog: MatDialog) {}
 
@@ -28,41 +30,62 @@ export class UsersComponent implements OnInit {
   }
 
   find(): void {
-    if (this.findName === '') {
-      this.flexWheel = true;
-      this.userService.getAllWithPagination(this.currPage, this.currSize).subscribe(
-        (response) =>
-        {
-          // @ts-ignore
-          this.users = response.content;
-          // @ts-ignore
-          // tslint:disable-next-line:radix
-          this.totalElements = parseInt(response.totalElements);
-          this.flexWheel = false;
-        },
-        (error) =>
-        {
-          console.log('error occupied : ' + error);
-        }
-      );
-    } else {
-      this.flexWheel = true;
-      this.userService.findWithParam(this.findFor, this.findName, this.currSize, this.currPage).subscribe(
-        (response) =>
-        {
-          // @ts-ignore
-          this.users = response.content;
-          // @ts-ignore
-          // tslint:disable-next-line:radix
-          this.totalElements = parseInt(response.totalElements);
-          this.flexWheel = false;
-        },
-        (error) =>
-        {
-          console.log('error occupied : ' + error);
-        }
-      );
-    }
+    this.params = this.params.append('page', this.currPage.toString())
+      .append('size', this.currSize.toString())
+      .append(this.findFor, this.findName);
+
+    this.flexWheel = true;
+    this.userService.getAllWithPagination(this.params).subscribe(
+      (response) =>
+      {
+        // @ts-ignore
+        this.users = response.content;
+        // @ts-ignore
+        // tslint:disable-next-line:radix
+        this.totalElements = parseInt(response.totalElements);
+        this.flexWheel = false;
+      },
+      (error) =>
+      {
+        console.log('error occupied : ' + error);
+      }
+    );
+
+    // if (this.findName === '') {
+    //   this.flexWheel = true;
+    //   this.userService.getAllWithPagination(this.currPage, this.currSize).subscribe(
+    //     (response) =>
+    //     {
+    //       // @ts-ignore
+    //       this.users = response.content;
+    //       // @ts-ignore
+    //       // tslint:disable-next-line:radix
+    //       this.totalElements = parseInt(response.totalElements);
+    //       this.flexWheel = false;
+    //     },
+    //     (error) =>
+    //     {
+    //       console.log('error occupied : ' + error);
+    //     }
+    //   );
+    // } else {
+    //   this.flexWheel = true;
+    //   this.userService.findWithParam(this.findFor, this.findName, this.currSize, this.currPage).subscribe(
+    //     (response) =>
+    //     {
+    //       // @ts-ignore
+    //       this.users = response.content;
+    //       // @ts-ignore
+    //       // tslint:disable-next-line:radix
+    //       this.totalElements = parseInt(response.totalElements);
+    //       this.flexWheel = false;
+    //     },
+    //     (error) =>
+    //     {
+    //       console.log('error occupied : ' + error);
+    //     }
+    //   );
+    // }
   }
 
   getPaginatorData(event: PageEvent): void {
