@@ -52,7 +52,7 @@ export class UtilitiesComponent implements OnInit {
   }
 
   getData(): void {
-    this.params = this.params.append('page', this.currPage.toString())
+    this.params = new HttpParams().append('page', this.currPage.toString())
       .append('size', this.currSize.toString());
     this.addressId = +this.activatedRoute.snapshot.paramMap.get('addressId');
     //let search = null;

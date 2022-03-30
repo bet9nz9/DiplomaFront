@@ -45,7 +45,7 @@ export class LoggerComponent implements OnInit {
 
   getData(): void {
     let search = null;
-    this.params = this.params.append('page', this.currPage.toString())
+    this.params = new HttpParams().append('page', this.currPage.toString())
       .append('size', this.currSize.toString());
     if (this.searchParameter !== '') {
       if (this.searchField === 'dateFrom' || this.searchField === 'dateTo') {

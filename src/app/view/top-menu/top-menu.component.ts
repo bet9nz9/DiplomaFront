@@ -67,7 +67,7 @@ export class TopMenuComponent implements OnInit {
   }
 
   getUserAddresses(): void{
-    this.params = this.params.append('userId', this.currentUser.id.toString());
+    this.params = new HttpParams().append('userId', this.currentUser.id.toString());
 
     this.addressesService.getAddressesByUser(this.params).subscribe((response) => {
       // @ts-ignore

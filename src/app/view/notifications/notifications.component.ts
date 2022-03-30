@@ -47,9 +47,13 @@ export class NotificationsComponent implements OnInit {
               public categoryService: CategoryService,
               private datePipe: DatePipe,
               public authService: AuthService) {
+    this.params = new HttpParams();
   }
 
   find(): void {
+    this.params = this.params.append('page', this.currPage.toString())
+      .append('size', this.currSize.toString());
+
     if (this.myNotifications) {
       this.params = this.params.append('createdBy', this.currentUser.id.toString());
     }
@@ -59,9 +63,6 @@ export class NotificationsComponent implements OnInit {
     } else {
       this.params = this.params.append('sort', 'dateAndTime:DESC');
     }
-
-    this.params = this.params.append('page', this.currPage.toString())
-      .append('size', this.currSize.toString());
 
     this.flexWheel = true;
     this.httpService.getDataBy(this.params).subscribe(

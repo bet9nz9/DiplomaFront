@@ -42,7 +42,7 @@ export class EKeyComponent implements OnInit {
 
 
   find(): void {
-    this.params = this.params.append('page', this.currPage.toString())
+    this.params = new HttpParams().append('page', this.currPage.toString())
       .append('size', this.currSize.toString())
       .append(this.findFor, this.findName);
 

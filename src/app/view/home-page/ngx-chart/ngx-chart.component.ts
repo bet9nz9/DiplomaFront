@@ -28,7 +28,7 @@ export class NgxChartComponent implements OnInit {
   params: HttpParams;
 
   ngOnInit(): void {
-    this.params = this.params.append('userId', this.currentUser.id.toString());
+    this.params = new HttpParams().append('userId', this.currentUser.id.toString());
     this.addressesService.getAddressesByUser(this.params).subscribe((response) => {
       // @ts-ignore
       this.userAddresses = response.content;
@@ -59,7 +59,7 @@ export class NgxChartComponent implements OnInit {
     this.chartIsReady = false;
     let newChartData: ChartData[] = [];
     let i = 0;
-    this.params = this.params.append('page', '0')
+    this.params = new HttpParams().append('page', '0')
       .append('size', '5')
       .append('address', this.currentAddress.id.toString())
       .append('serviceId', '0');

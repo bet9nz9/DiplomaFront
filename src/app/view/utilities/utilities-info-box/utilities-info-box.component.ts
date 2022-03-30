@@ -34,7 +34,7 @@ export class UtilitiesInfoBoxComponent implements OnInit {
   }
 
   getLastUtilities(): void {
-    this.params = this.params.append('page', '0')
+    this.params = new HttpParams().append('page', '0')
       .append('size', '5')
       .append('sort', 'dateAndTime:ASC');
     let date = new Date();
@@ -80,7 +80,7 @@ export class UtilitiesInfoBoxComponent implements OnInit {
   }
 
   getDebt(): void{
-    this.params = this.params.append('address', this.addressId.toString())
+    this.params = new HttpParams().append('address', this.addressId.toString())
       .append('status', 'false');
     //let search = 'address=='+this.addressId+'&status=false';
 

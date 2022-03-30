@@ -42,7 +42,7 @@ export class AddressComponent implements OnInit {
   }
 
   getData(): void {
-    this.params = this.params.append('page', this.currPage.toString())
+    this.params = new HttpParams().append('page', this.currPage.toString())
       .append('size', this.currSize.toString())
       .append('buildingId', this.buildingId.toString());
     this.flexWheel = true;
@@ -61,7 +61,7 @@ export class AddressComponent implements OnInit {
   }
 
   search(): void {
-    this.params = this.params.append(this.searchField, this.searchParameter)
+    this.params = new HttpParams().append(this.searchField, this.searchParameter)
       .append('page', this.currPage.toString())
       .append('size', this.currSize.toString())
       .append('buildingId', this.buildingId.toString());
