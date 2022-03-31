@@ -30,15 +30,10 @@ export class UserService extends PortService {
 
   getAllWithPagination(params: HttpParams): Observable<User> {
     return  this.http.get<User>(this.url, {headers: this.httpHeaders, params: params});
-    // if (pageNumber === 0 && size === 0) {
-    //   return this.http.get<User>(this.url, {headers: this.httpHeaders});
-    // }
-    // return this.http.get<User>(this.url + '?page=' + pageNumber + '&size=' + size, {headers: this.httpHeaders});
   }
 
   findWithParam(params: HttpParams): Observable<User> {
     return  this.http.get<User>(this.url, {headers: this.httpHeaders, params: params});
-    //return this.http.get<User>(this.url + '?size=' + size + '&' + param + '=' + name + '&page=' + page, {headers: this.httpHeaders});
   }
 
   getById(id: number): Observable<User> {

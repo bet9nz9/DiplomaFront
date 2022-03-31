@@ -142,9 +142,11 @@ export class NotificationsComponent implements OnInit {
   dateConversion(notifications: Notifications[]) {
     // tslint:disable-next-line:prefer-for-of
     for (let i = 0; i < notifications.length; i++) {
-      notifications[i].date = new Date(notifications[i].date);
-      // @ts-ignore
-      notifications[i].date = this.datePipe.transform(notifications[i].date, 'dd.MM.yyyy HH:mm');
+      notifications[i].dateAndTime = new Date(notifications[i].dateAndTime);
+      if (notifications[i].dateAndTime !== undefined){
+        // @ts-ignore
+        notifications[i].dateAndTime = this.datePipe.transform(notifications[i].dateAndTime, 'dd.MM.yyyy HH:mm');
+      }
 
       if (notifications[i].text.length != null && notifications[i].text.length > 20) {
         notifications[i].title = notifications[i].title.substring(0, 20) + ' ...';

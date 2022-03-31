@@ -43,6 +43,7 @@ export class RegistryComponent implements OnInit {
   }
 
   createUser(): void {
+    this.user.firstName = this.user.name;
     this.authService.addUser(this.user).subscribe((data) => {
       this.dialog.closeAll();
     });

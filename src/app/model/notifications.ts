@@ -4,7 +4,7 @@ import {User} from './user';
 
 export class Notifications extends BaseEntity{
   text: string;
-  date: Date;
+  dateAndTime: Date;
   title: string;
   category: Category;
   createdBy: User;
@@ -13,7 +13,7 @@ export class Notifications extends BaseEntity{
     super(obj);
     if(obj != null) {
       this.text = obj && obj.text || null;
-      this.date = obj && obj.date || null;
+      this.dateAndTime = obj && obj.dateAndTime || null;
       this.title = obj && obj.title || null;
       this.category = obj && obj.category || null;
       this.createdBy = obj && obj.createdBy || null;

@@ -4,7 +4,6 @@ import {UserService} from '../../controller/user.service';
 import {User} from '../../model/user';
 import {PageEvent} from '@angular/material/paginator';
 import {SubmitComponent} from '../submit/submit.component';
-import {WaitComponent} from '../wait/wait.component';
 import {HttpParams} from "@angular/common/http";
 
 @Component({
@@ -23,7 +22,8 @@ export class UsersComponent implements OnInit {
   users: User[] = [];
   params: HttpParams;
 
-  constructor(public userService: UserService, public dialog: MatDialog) {}
+  constructor(public userService: UserService, public dialog: MatDialog) {
+  }
 
   ngOnInit(): void {
     this.find();
@@ -36,8 +36,7 @@ export class UsersComponent implements OnInit {
 
     this.flexWheel = true;
     this.userService.getAllWithPagination(this.params).subscribe(
-      (response) =>
-      {
+      (response) => {
         // @ts-ignore
         this.users = response.content;
         // @ts-ignore
@@ -45,47 +44,10 @@ export class UsersComponent implements OnInit {
         this.totalElements = parseInt(response.totalElements);
         this.flexWheel = false;
       },
-      (error) =>
-      {
+      (error) => {
         console.log('error occupied : ' + error);
       }
     );
-
-    // if (this.findName === '') {
-    //   this.flexWheel = true;
-    //   this.userService.getAllWithPagination(this.currPage, this.currSize).subscribe(
-    //     (response) =>
-    //     {
-    //       // @ts-ignore
-    //       this.users = response.content;
-    //       // @ts-ignore
-    //       // tslint:disable-next-line:radix
-    //       this.totalElements = parseInt(response.totalElements);
-    //       this.flexWheel = false;
-    //     },
-    //     (error) =>
-    //     {
-    //       console.log('error occupied : ' + error);
-    //     }
-    //   );
-    // } else {
-    //   this.flexWheel = true;
-    //   this.userService.findWithParam(this.findFor, this.findName, this.currSize, this.currPage).subscribe(
-    //     (response) =>
-    //     {
-    //       // @ts-ignore
-    //       this.users = response.content;
-    //       // @ts-ignore
-    //       // tslint:disable-next-line:radix
-    //       this.totalElements = parseInt(response.totalElements);
-    //       this.flexWheel = false;
-    //     },
-    //     (error) =>
-    //     {
-    //       console.log('error occupied : ' + error);
-    //     }
-    //   );
-    // }
   }
 
   getPaginatorData(event: PageEvent): void {
@@ -94,7 +56,7 @@ export class UsersComponent implements OnInit {
     this.find();
   }
 
-  openSubmitDialog(user: User): void{
+  openSubmitDialog(user: User): void {
     const dialogRef = this.dialog.open(SubmitComponent, {
       data: user
     });

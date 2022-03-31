@@ -36,7 +36,7 @@ export class AddDialogNotificationComponent implements OnInit{
 
   addNotification(): void{
     let i = 0;
-    this.notification.date = new Date();
+    this.notification.dateAndTime = new Date();
     // console.log(this.notification);
     for (i = 0; i < this.users.length; i++) {
       if (this.userName === this.users[i].name) { this.notification.createdBy = this.users[i]; }

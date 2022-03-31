@@ -20,6 +20,7 @@ export class AuthService extends PortService {
   url = 'http://localhost:' + this.port;
 
   addUser(user: User): Observable<any> {
+    debugger
     return this.http.post(this.url + '/register', user);
   }
 
