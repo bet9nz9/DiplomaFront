@@ -35,7 +35,7 @@ export class EkeyEditComponent implements OnInit {
     this.eKeyService.getOne(this.eKey.id).subscribe(
       (response) => {
         this.eKey = response;
-        this.userName = this.eKey.user.name;
+        this.userName = this.eKey.referencedUser == null ? 'Не назначен' :  this.eKey.referencedUser.name;
         this.isActive = String(this.eKey.isActive);
         this.userService.getAll().subscribe(
           (response) =>
@@ -61,7 +61,10 @@ export class EkeyEditComponent implements OnInit {
     let i;
     if(this.userName != '') {
       for(i = 0; i < this.users.length; i++) {
-        if (this.userName === this.users[i].name) this.eKey.user = this.users[i];
+        if (this.userName === this.users[i].name){
+          this.eKey.referencedUser = this.users[i];
+          break;
+        }
       }
     }
     this.eKey.isActive = this.isActive === "true";

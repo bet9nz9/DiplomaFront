@@ -49,6 +49,7 @@ export class AddressComponent implements OnInit {
     this.httpServer.getAddressesByBuildingId(this.params).subscribe(
       (response) => {
         // @ts-ignore
+        debugger
         this.addresses = response.content;
         // @ts-ignore
         this.totalElements = parseInt(response.totalElements);
@@ -84,6 +85,7 @@ export class AddressComponent implements OnInit {
       (response) => {
         // @ts-ignore
         this.addresses = response.content;
+        debugger
         // @ts-ignore
         this.totalElements = parseInt(response.totalElements);
         this.flexWheel = false;

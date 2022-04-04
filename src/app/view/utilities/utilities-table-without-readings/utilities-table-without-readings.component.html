@@ -1,7 +1,7 @@
 <table mat-table [dataSource]="utilitiesTable" class="mat-elevation-z8">
   <ng-container matColumnDef="month">
     <th mat-header-cell *matHeaderCellDef>Дата</th>
-    <td mat-cell *matCellDef="let utility"> {{utility.date}} </td>
+    <td mat-cell *matCellDef="let utility"> {{utility.dateAndTime}} </td>
   </ng-container>
 
   <ng-container matColumnDef="tariff">

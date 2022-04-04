@@ -4,7 +4,7 @@ import {Address} from './address';
 
 export class Utility extends BaseEntity{
   bankBook: string;
-  date: Date;
+  dateAndTime: Date;
   endMonthReading: number;
   startMonthReading: number;
   amountToPay: number;
@@ -16,7 +16,7 @@ export class Utility extends BaseEntity{
   constructor(obj: any) {
     super(obj);
     this.bankBook = obj && obj.bankBook || null;
-    this.date = obj && obj.date || null;
+    this.dateAndTime = obj && obj.dateAndTime || null;
     this.endMonthReading = obj && obj.endMonthReading || null;
     this.startMonthReading = obj && obj.startMonthReading || null;
     this.amountToPay = obj && obj.amountToPay || null;

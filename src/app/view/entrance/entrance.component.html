@@ -42,7 +42,7 @@
 
     <ng-container matColumnDef="type">
       <th mat-header-cell *matHeaderCellDef>Тип</th>
-      <td mat-cell *matCellDef="let entrance"> {{entrance.type.name}} </td>
+      <td mat-cell *matCellDef="let entrance"> {{entrance.entranceType.name}} </td>
     </ng-container>
 
     <ng-container matColumnDef="building">
@@ -62,7 +62,7 @@
 
     <ng-container matColumnDef="active">
       <th mat-header-cell *matHeaderCellDef>Активен/Не активен</th>
-      <td mat-cell *matCellDef="let entrance"> {{entrance.active ? 'Активен' : 'Не активен'}} </td>
+      <td mat-cell *matCellDef="let entrance"> {{entrance.isActive ? 'Активен' : 'Не активен'}} </td>
     </ng-container>
 
     <ng-container matColumnDef="actions" *ngIf="isAdmin || isGuard">

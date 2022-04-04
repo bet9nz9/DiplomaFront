@@ -20,7 +20,7 @@
 
   <mat-form-field style="width: 40vh" [formGroup]="formGroup">
     <mat-label>Тип</mat-label>
-    <mat-select [(ngModel)]="entrance.type" formControlName="typeForm">
+    <mat-select [(ngModel)]="entrance.entranceType" formControlName="typeForm">
       <mat-option *ngFor="let type of types" [value]="type">
         {{type.name}}
       </mat-option>
@@ -44,9 +44,9 @@
 
   <mat-form-field style="width: 40vh" [formGroup]="formGroup">
     <mat-label>Активное</mat-label>
-    <mat-select formControlName="activeForm" [(ngModel)]="entrance.active">
-      <mat-option value="true">true</mat-option>
-      <mat-option value="false">false</mat-option>
+    <mat-select formControlName="activeForm" [(ngModel)]="entrance.isActive">
+      <mat-option value="true">Активный</mat-option>
+      <mat-option value="false">Не активный</mat-option>
     </mat-select>
     <mat-error *ngIf="formGroup.controls['activeForm'].hasError('required')">
       Это поле <strong>обязательное!</strong>

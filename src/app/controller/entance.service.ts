@@ -42,6 +42,7 @@ export class EntranceService extends PortService {
   }
 
   updateEntrance(body: Entrance): Observable<Entrance> {
+    debugger
     return this.http.put<Entrance>(this.url, body, {headers: this.httpHeaders});
   }
 

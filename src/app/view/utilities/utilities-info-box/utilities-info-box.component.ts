@@ -95,7 +95,7 @@ export class UtilitiesInfoBoxComponent implements OnInit {
   parseDate(utilities: Utility[]): Utility[] {
     // tslint:disable-next-line:prefer-for-of
     for (let i = 0; i < utilities.length; i++) {
-      utilities[i].date = new Date(utilities[i].date);
+      utilities[i].dateAndTime = new Date(utilities[i].dateAndTime);
       // @ts-ignore
       utilities[i].date = this.datePipe.transform(utilities[i].date, 'MMM y');
     }

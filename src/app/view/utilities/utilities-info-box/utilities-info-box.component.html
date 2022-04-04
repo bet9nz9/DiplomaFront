@@ -16,7 +16,7 @@
     <p class="infoText">Долг:</p>
     <ng-template *ngFor="let debt of debts">
       <div *ngIf="debt !== null">
-        <p class="infoText">{{debt.date+', '+debt.service.name}}</p>
+        <p class="infoText">{{debt.dateAndTime+', '+debt.service.name}}</p>
       </div>
     </ng-template>
   </div>

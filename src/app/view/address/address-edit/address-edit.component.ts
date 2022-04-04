@@ -35,7 +35,7 @@ export class AddressEditComponent implements OnInit {
     this.http.getById(this.address.id).subscribe(
       (response) => {
         this.address = response;
-        this.userEmail = this.address.user.email;
+        this.userEmail = this.address.referencedUser == undefined ? '' : this.address.referencedUser.email;
       }, (error => console.log('error occupied: ' + error))
     );
     this.userService.getAll().subscribe(
@@ -59,7 +59,7 @@ export class AddressEditComponent implements OnInit {
     let i = 0;
     for (i; i < this.users.length; i++) {
       if (this.users[i].email == this.userEmail) {
-        this.address.user = this.users[i];
+        this.address.referencedUser = this.users[i];
       }
     }
     this.openWaitDialog();

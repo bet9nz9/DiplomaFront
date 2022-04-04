@@ -40,10 +40,11 @@ export class EditDialogComponent implements OnInit {
   ngOnInit(): void {
     this.entranceService.getOneEntrance(this.entrance.id).subscribe(
       (response) => {
+        debugger
         this.entrance = response;
         this.buildingName = this.entrance.building.name;
-        this.typeName = this.entrance.type.name;
-        this.isActive = String(this.entrance.active);
+        this.typeName = this.entrance.entranceType.name;
+        this.isActive = String(this.entrance.isActive);
       }
     );
     this.typeService.getAll().subscribe(
@@ -83,12 +84,13 @@ export class EditDialogComponent implements OnInit {
     this.openWaitDialog();
     let i;
     for(i = 0; i < this.types.length; i++) {
-      if (this.typeName === this.types[i].name) this.entrance.type = this.types[i];
+      if (this.typeName === this.types[i].name) this.entrance.entranceType = this.types[i];
     }
     for(i = 0; i < this.buildings.length; i++) {
       if (this.buildingName === this.buildings[i].name) this.entrance.building = this.buildings[i];
     }
-    this.entrance.active = this.isActive === "true";
+    debugger
+    this.entrance.isActive = this.isActive === "true";
     this.entranceService.updateEntrance(this.entrance).subscribe((data) =>
     {
       this.dialog.closeAll();

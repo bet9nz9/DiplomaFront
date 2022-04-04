@@ -1,12 +1,12 @@
 import {BaseEntity} from './baseEntity';
 
 export class Building extends BaseEntity{
-  number: number;
+  buildingNumber: number;
 
   constructor(obj: any) {
     super(obj);
     if(obj != null) {
-      this.number = obj && obj.number || null;
+      this.buildingNumber = obj && obj.buildingNumber || null;
     }
   }
 }

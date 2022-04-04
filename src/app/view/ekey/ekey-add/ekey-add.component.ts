@@ -51,6 +51,7 @@ export class EkeyAddComponent implements OnInit {
 
   addEKey(): void {
     this.openWaitDialog();
+    debugger
     this.eKeyService.addKey(this.eKey).subscribe(
       (response) => {
         this.dialog.closeAll();

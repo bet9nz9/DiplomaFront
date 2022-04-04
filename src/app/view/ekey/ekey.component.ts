@@ -51,7 +51,7 @@ export class EKeyComponent implements OnInit {
       (response) =>
       {
         // @ts-ignore
-        this.users = response.content;
+        this.eKeys = response.content;
         // @ts-ignore
         // tslint:disable-next-line:radix
         this.totalElements = parseInt(response.totalElements);

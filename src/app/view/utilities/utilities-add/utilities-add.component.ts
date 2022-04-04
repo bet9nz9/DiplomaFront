@@ -61,7 +61,7 @@ export class UtilitiesAddComponent implements OnInit {
     ]),
     service: new FormControl('', Validators.required),
     address: new FormControl('', Validators.required),
-    picker: new FormControl(this.utility.date, [
+    picker: new FormControl(this.utility.dateAndTime, [
       Validators.required,
       Validators.pattern('([0-1][0-9])\\/([0-3][0-9])\\/(20(\\d{2}))')
     ]),

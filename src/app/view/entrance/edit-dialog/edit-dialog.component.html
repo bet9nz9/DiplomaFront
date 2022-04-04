@@ -54,8 +54,8 @@
   <mat-form-field style="width: 40vh" [formGroup]="formGroup">
     <mat-label>Активное</mat-label>
     <mat-select formControlName="activeForm" [(ngModel)]="isActive">
-      <mat-option value="true">true</mat-option>
-      <mat-option value="false">false</mat-option>
+      <mat-option value="true">Активный</mat-option>
+      <mat-option value="false">Не Активный</mat-option>
     </mat-select>
     <mat-error *ngIf="formGroup.controls['activeForm'].hasError('required')">
       Это поле <strong>обязательное!</strong>

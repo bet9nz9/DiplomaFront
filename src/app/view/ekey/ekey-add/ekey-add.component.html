@@ -28,7 +28,7 @@
 
   <mat-form-field style="width: 40vh">
     <mat-label>Пользователь</mat-label>
-    <mat-select [(ngModel)]="eKey.user">
+    <mat-select [(ngModel)]="eKey.referencedUser">
       <mat-option *ngFor="let user of users" [value]="user">
         {{user.name}}
       </mat-option>
