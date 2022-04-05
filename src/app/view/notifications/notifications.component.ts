@@ -95,9 +95,10 @@ export class NotificationsComponent implements OnInit {
   }
 
   categoryChange(): void {
+    this.params = this.params.delete('category');
     for (let i = 0; i < this.categories.length; i++) {
       if (this.categories[i].name === this.categoryName) {
-        this.params = this.params.append('categoryId', this.categories[i].id.toString())
+        this.params = this.params.append('category', this.categories[i].id.toString());
         break;
       }
     }

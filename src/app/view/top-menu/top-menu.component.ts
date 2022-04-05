@@ -67,15 +67,15 @@ export class TopMenuComponent implements OnInit {
   }
 
   getUserAddresses(): void{
-    this.params = new HttpParams().append('userId', this.currentUser.id.toString());
+    this.params = new HttpParams().append('referencedUser', this.currentUser.id.toString());
 
     this.addressesService.getAddressesByUser(this.params).subscribe((response) => {
       // @ts-ignore
       this.userAddresses = response.content;
       this.addressIsReady = false;
-      if (this.userAddresses.length === 0){
+      if (this.userAddresses.length === 0) {
         this.noAddresses = true;
-      }else {
+      } else {
         this.noAddresses = false;
       }
     })
@@ -90,10 +90,10 @@ export class TopMenuComponent implements OnInit {
     if (this.currentUser.id === undefined) {
       this.authService.current().subscribe((response) => {
         this.currentUser = response;
-        if (this.isAdmin){
+        if (this.isAdmin) {
           this.getBuildings();
         }
-        if (this.isNoGuest){
+        if (this.isNoGuest) {
           this.getUserAddresses();
         }
       });

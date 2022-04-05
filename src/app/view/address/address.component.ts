@@ -44,7 +44,7 @@ export class AddressComponent implements OnInit {
   getData(): void {
     this.params = new HttpParams().append('page', this.currPage.toString())
       .append('size', this.currSize.toString())
-      .append('buildingId', this.buildingId.toString());
+      .append('building', this.buildingId.toString());
     this.flexWheel = true;
     this.httpServer.getAddressesByBuildingId(this.params).subscribe(
       (response) => {
@@ -65,21 +65,7 @@ export class AddressComponent implements OnInit {
     this.params = new HttpParams().append(this.searchField, this.searchParameter)
       .append('page', this.currPage.toString())
       .append('size', this.currSize.toString())
-      .append('buildingId', this.buildingId.toString());
-
-    //TODO: DELETE
-    // let searchString;
-    // if (this.searchField === '') {
-    //   searchString = null;
-    // } else if (this.searchParameter === '') {
-    //   searchString = null;
-    // } else {
-    //   if (this.searchField === 'flat' || this.searchField === 'apartmentNumber') {
-    //     searchString = '&' + this.searchField + '==' + this.searchParameter;
-    //   } else {
-    //     searchString = '&' + this.searchField + '=' + this.searchParameter;
-    //   }
-    // }
+      .append('building', this.buildingId.toString());
 
     this.httpServer.search(this.params).subscribe(
       (response) => {
@@ -118,6 +104,10 @@ export class AddressComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
     });
+  }
+
+  refresh(){
+    location.reload();
   }
 
 }

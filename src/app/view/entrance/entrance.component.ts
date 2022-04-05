@@ -30,8 +30,10 @@ export class EntranceComponent implements OnInit {
   isGuard: boolean;
   isAdmin: boolean;
   params: HttpParams;
+  hideSearchField: boolean;
 
   ngOnInit(): void{
+    this.hideSearchField = false;
     this.find();
     this.isGuard = localStorage.getItem('currentUserRole')!==null && localStorage.getItem('currentUserRole') === 'guard';
     this.isAdmin = localStorage.getItem('currentUserRole')!==null && localStorage.getItem('currentUserRole') === 'admin';
@@ -81,43 +83,7 @@ export class EntranceComponent implements OnInit {
         console.log('error occupied : ' + error);
       }
     );
-
-    // if (this.findName === '') {
-    //   this.flexWheel = true;
-    //   this.httpService.getData(this.currPage, this.currSize).subscribe(
-    //     (response) =>
-    //     {
-    //       // @ts-ignore
-    //       this.entrances = response.content;
-    //       // @ts-ignore
-    //       this.totalElements = parseInt(response.totalElements);
-    //       this.flexWheel = false;
-    //     },
-    //     (error) =>
-    //     {
-    //       console.log('error occupied : ' + error);
-    //     }
-    //   );
-    // } else {
-    //   this.flexWheel = true;
-    //   this.httpService.findWithParam(this.findFor, this.findName, this.currSize, this.currPage).subscribe(
-    //   (response) =>
-    //   {
-    //     // @ts-ignore
-    //     this.entrances = response.content;
-    //     // @ts-ignore
-    //     this.totalElements = parseInt(response.totalElements);
-    //     this.flexWheel = false;
-    //   },
-    //   (error) =>
-    //   {
-    //     console.log('error occupied : ' + error);
-    //   }
-    //   );
-    // }
   }
-
-
 
   setStatus(entrance: Entrance): void {
     let statusEntrance = new Entrance(entrance);
@@ -137,6 +103,15 @@ export class EntranceComponent implements OnInit {
     this.currSize = event.pageSize;
     this.currPage = event.pageIndex;
     this.find();
+  }
+
+  hideField(): void {
+    if (this.findFor == "isActive" || this.findFor == "status"){
+      this.hideSearchField = true;
+    } else {
+      this.hideSearchField = false;
+      this.findName = '';
+    }
   }
 
 }

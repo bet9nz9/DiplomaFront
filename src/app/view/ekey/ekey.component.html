@@ -3,18 +3,31 @@
   <div class="add">
     <div class="wrapper">
       <div class="filter">
-        <mat-form-field style="width: 40vh">
-          <mat-label>Поиск</mat-label>
-          <input matInput placeholder="name" [(ngModel)]="findName" (keydown.enter)="currPage = 0; find()">
-        </mat-form-field>
+        <div [hidden]="!hideSearchField">
+          <div class="find__button" >
+            <mat-form-field style="width: 15vh">
+              <mat-label>Поиск</mat-label>
+              <mat-select [(ngModel)]="findName">
+                <mat-option value="true">Активный</mat-option>
+                <mat-option value="false">Не активный</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <div [hidden] = "hideSearchField">
+          <mat-form-field style="width: 40vh" >
+            <mat-label>Поиск</mat-label>
+            <input matInput placeholder="name" [(ngModel)]="findName" (keydown.enter)="currPage = 0; find()">
+          </mat-form-field>
+        </div>
       </div>
       <div class="find__button">
         <mat-form-field style="width: 15vh">
           <mat-label>Искать по</mat-label>
           <mat-select [(ngModel)]="findFor">
-            <mat-option value="">Отсутсвует</mat-option>
-            <mat-option value="name">Названию</mat-option>
-            <mat-option value="isActive">Активный</mat-option>
+            <mat-option value="" (click)="hideField()" >Отсутсвует</mat-option>
+            <mat-option value="name" (click)="hideField()" >Названию</mat-option>
+            <mat-option value="isActive" (click)="hideField()">Активный</mat-option>
           </mat-select>
         </mat-form-field>
       </div>

@@ -22,11 +22,12 @@ export class EKeyComponent implements OnInit {
   isAdmin: boolean;
 
   ngOnInit(): void {
+    this.hideSearchField = false;
     this.find();
     this.isAdmin = localStorage.getItem('currentUserRole') !== null && localStorage.getItem('currentUserRole') === 'admin';
-    if (this.isAdmin){
+    if (this.isAdmin) {
       this.displayedColumns = ['name', 'description', 'keyCode', 'active', 'user', 'actions'];
-    }else {
+    } else {
       this.displayedColumns = ['name', 'description', 'keyCode', 'active', 'user'];
     }
   }
@@ -39,6 +40,7 @@ export class EKeyComponent implements OnInit {
   eKeys: Ekey[] = [];
   totalElements: number;
   params: HttpParams;
+  hideSearchField: boolean;
 
 
   find(): void {
@@ -48,8 +50,7 @@ export class EKeyComponent implements OnInit {
 
     this.flexWheel = true;
     this.httpService.getData(this.params).subscribe(
-      (response) =>
-      {
+      (response) => {
         // @ts-ignore
         this.eKeys = response.content;
         // @ts-ignore
@@ -57,43 +58,10 @@ export class EKeyComponent implements OnInit {
         this.totalElements = parseInt(response.totalElements);
         this.flexWheel = false;
       },
-      (error) =>
-      {
+      (error) => {
         console.log('error occupied : ' + error);
       }
     );
-
-    // if (this.findName === '') {
-    //   this.flexWheel = true;
-    //   this.httpService.getData(this.currPage, this.currSize).subscribe(
-    //     (response) => {
-    //       // @ts-ignore
-    //       this.eKeys = response.content;
-    //       // @ts-ignore
-    //       // tslint:disable-next-line:radix
-    //       this.totalElements = parseInt(response.totalElements);
-    //       this.flexWheel = false;
-    //     },
-    //     (error) => {
-    //       console.log('error occupied : ' + error);
-    //     }
-    //   );
-    // } else {
-    //   this.flexWheel = true;
-    //   this.httpService.findWithParam(this.findFor, this.findName, this.currSize, this.currPage).subscribe(
-    //     (response) => {
-    //       // @ts-ignore
-    //       this.eKeys = response.content;
-    //       // @ts-ignore
-    //       // tslint:disable-next-line:radix
-    //       this.totalElements = parseInt(response.totalElements);
-    //       this.flexWheel = false;
-    //     },
-    //     (error) => {
-    //       console.log('error occupied : ' + error);
-    //     }
-    //   );
-    // }
   }
 
   openEditDialog(entrance: Ekey): void {
@@ -122,6 +90,10 @@ export class EKeyComponent implements OnInit {
     this.currSize = event.pageSize;
     this.currPage = event.pageIndex;
     this.find();
+  }
+
+  hideField(): void {
+    this.hideSearchField = this.findFor == "isActive";
   }
 
 }

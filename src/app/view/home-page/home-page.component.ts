@@ -58,7 +58,7 @@ export class HomePageComponent implements OnInit {
   getNotes(): void {
     let params = new HttpParams().append('page', '0')
       .append('size', '5')
-      .append('sort', 'date:DESC');
+      .append('sort', 'dateAndTime:DESC');
     this.httpService.getData(params).subscribe(
       (response) => {
         // @ts-ignore
