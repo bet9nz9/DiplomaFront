@@ -35,6 +35,9 @@ import {
   UtilityEditComponentWithoutReading
 } from './utilities/utilities-table-without-readings/utilities-table-without-readings.component';
 import {AddressComponent} from './address/address.component';
+import {ServiceComponent} from './utilities/services/service.component';
+import {ServiceEditComponent} from './utilities/services/update-service/service-edit.component';
+import {ServiceAddComponent} from './utilities/services/add-service/service-add.component';
 import {AddressEditComponent} from './address/address-edit/address-edit.component';
 import {UtilitiesAddComponent} from './utilities/utilities-add/utilities-add.component';
 import {AddressAddComponent} from './address/address-add/address-add.component';
@@ -83,9 +86,12 @@ import { SubmitComponent } from './submit/submit.component';
     UtilitiesAddComponent,
     AddressAddComponent,
     AddressComponent,
+    ServiceComponent,
     UpdateCategory,
     AddDialogCategory,
     AddressEditComponent,
+    ServiceEditComponent,
+    ServiceAddComponent,
     AuthDialogComponent,
     NotificationsComponent,
     AddDialogNotificationComponent,
@@ -165,7 +171,10 @@ import { SubmitComponent } from './submit/submit.component';
     UtilitiesInfoBoxComponent,
     UtilitiesAddComponent,
     AddressEditComponent,
+    ServiceEditComponent,
+    ServiceAddComponent,
     AddressComponent,
+    ServiceComponent,
     AddressAddComponent,
     ViewNoteComponent,
     MatSlideToggleModule,

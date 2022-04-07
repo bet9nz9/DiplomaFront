@@ -3,6 +3,7 @@ import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Address} from "../model/address";
 import {PortService} from './port.service';
+import {Service} from "../model/service";
 
 // const httpHeaders: HttpHeaders = new HttpHeaders({
 //   Authorization : localStorage.getItem('Authorization')
@@ -26,26 +27,14 @@ export class AddressService extends PortService{
 
   getAddressesByBuildingId(params: HttpParams): Observable<Address> {
     return this.http.get<Address>(this.url, {headers: this.httpHeaders, params: params});
-    // if (pageNumber !== null && size !== null) {
-    //   return this.http.get<Address>(this.url + '?page=' + pageNumber + '&size=' + size +
-    //     '&' + 'building==' + buildingId, {headers: this.httpHeaders});
-    // } else {
-    //   return this.http.get<Address>(this.url + '?building==' + buildingId, {headers: this.httpHeaders});
-    // }
   }
 
   getAddressesByUser(params: HttpParams): Observable<Address>{
     return this.http.get<Address>(this.url, {headers: this.httpHeaders, params: params});
-    // return this.http.get<Address>(this.url + '?user==' + userId, {headers: this.httpHeaders});
   }
 
   search(params: HttpParams): Observable<Address> {
     return this.http.get<Address>(this.url, {headers: this.httpHeaders, params: params});
-    // if (search === null) {
-    //   return this.http.get<Address>(this.url + '?building==' + buildingId, {headers: this.httpHeaders});
-    // } else {
-    //   return this.http.get<Address>(this.url + '?building==' + buildingId + search, {headers: this.httpHeaders});
-    // }
   }
 
   updateAddress(body: Address): Observable<any> {

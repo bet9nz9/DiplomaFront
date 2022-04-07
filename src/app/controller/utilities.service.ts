@@ -5,6 +5,7 @@ import { Utility } from '../model/utility';
 import {Service} from "../model/service";
 import {PortService} from './port.service';
 import {Entrance} from "../model/entrance";
+import {Address} from "../model/address";
 
 // const httpHeaders: HttpHeaders = new HttpHeaders({
 //   Authorization : localStorage.getItem('Authorization')
@@ -29,21 +30,6 @@ export class UtilitiesService extends PortService{
 
   getData(params: HttpParams): Observable<Utility> {
     return  this.http.get<Utility>(this.url, {headers: this.httpHeaders, params: params});
-    // if (pageNumber === null && size === null){
-    //   if (searchParameter != '' && serviceId === null){
-    //     return this.http.get<Utility>(this.url + '?' + searchParameter, {headers: this.httpHeaders});
-    //   }else if(searchParameter != '' && serviceId !== null){
-    //     return this.http.get<Utility>(this.url + '?' + searchParameter+'&service=='+serviceId, {headers: this.httpHeaders});
-    //   }
-    // }
-    // if (searchParameter !== ''){
-    //   return this.http.get<Utility>(this.url + '?page=' + pageNumber + '&size=' + size + '&' + searchParameter, {headers: this.httpHeaders});
-    // }
-    // if (serviceId === 0){
-    //   return this.http.get<Utility>(this.url + '?page=' + pageNumber + '&size=' + size + '&sort=dateAndTime:DESC', {headers: this.httpHeaders});
-    // }else {
-    //   return this.http.get<Utility>(this.url + '?page=' + pageNumber + '&size=' + size + '&service==' + serviceId, {headers: this.httpHeaders});
-    // }
   }
 
   updateUtility(body: Utility): Observable<any> {
@@ -58,7 +44,25 @@ export class UtilitiesService extends PortService{
     return this.http.get<Utility>(this.url + '/' + id, {headers: this.httpHeaders});
   }
 
-  getServices(): Observable<Service>{
-    return this.http.get<Service>(this.url+'/services', {headers: this.httpHeaders});
+  getServices(params: HttpParams): Observable<Service>{
+    return this.http.get<Service>(this.url+'/userServices', {headers: this.httpHeaders, params: params});
   }
+
+  getServicesTypes(): Observable<Service>{
+    let params = new HttpParams();
+    return this.http.get<Service>(this.url+'/services', {headers: this.httpHeaders, params: params});
+  }
+
+  createUserService(body: Service): Observable<any>{
+    return  this.http.post<Service>(this.url + '/createUserService', body, {headers: this.httpHeaders});
+  }
+
+  updateUserService(body: Service): Observable<any>{
+    return  this.http.put<Service>(this.url + '/userServices/update', body, {headers: this.httpHeaders});
+  }
+
+  deleteUserService(serviceId: number): Observable<any> {
+    return this.http.delete<any>(this.url + '/userServices/' + serviceId, {headers: this.httpHeaders});
+  }
+
 }

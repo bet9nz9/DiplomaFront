@@ -7,6 +7,8 @@ import {UtilitiesService} from "../../../controller/utilities.service";
 import {AddressService} from "../../../controller/address.service";
 import {MAT_DIALOG_DATA, MatDialog} from "@angular/material/dialog";
 import {WaitComponent} from "../../wait/wait.component";
+import {Router} from "@angular/router";
+import {HttpParams} from "@angular/common/http";
 
 @Component({
   selector: 'app-utilities-add',
@@ -18,13 +20,15 @@ export class UtilitiesAddComponent implements OnInit {
   constructor(private utilitiesService: UtilitiesService,
               @Inject(MAT_DIALOG_DATA) public addressId: number,
               private addressesService: AddressService,
+              private router: Router,
               private dialog: MatDialog) {
   }
 
-  services: Service[] = [];
+  availableServices: Service[] = [];
   address: Address;
   disable = false;
   serviceName: string;
+  hideReadingsField: boolean;
 
   utility = new Utility(null);
 

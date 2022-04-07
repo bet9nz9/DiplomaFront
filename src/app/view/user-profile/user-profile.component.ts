@@ -49,7 +49,7 @@ export class UserProfileComponent implements OnInit {
             console.log('error occupied : ' + error);
           }
         );
-        let param = new HttpParams().append('userId', this.userId.toString());
+        let param = new HttpParams().append('user', this.userId.toString());
         this.eKeyService.getEKeyByUserId(param).subscribe(
           (response) =>
           {

@@ -7,9 +7,10 @@ import {DatePipe} from '@angular/common';
 import {UtilitiesTableComponent} from './utilities-table/utilities-table.component';
 import {UtilityEditComponentWithoutReading} from "./utilities-table-without-readings/utilities-table-without-readings.component";
 import {UtilitiesInfoBoxComponent} from "./utilities-info-box/utilities-info-box.component";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {UtilitiesAddComponent} from "./utilities-add/utilities-add.component";
 import {HttpParams} from "@angular/common/http";
+import {Service} from "../../model/service";
 
 @Component({
   selector: 'app-utilities',
@@ -20,8 +21,9 @@ export class UtilitiesComponent implements OnInit {
 
   constructor(public dialog: MatDialog,
               public httpServer: UtilitiesService,
+              public utilitiesService: UtilitiesService,
               private datePipe: DatePipe,
-              private activatedRoute: ActivatedRoute) {
+              private router: Router) {
   }
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -30,8 +32,9 @@ export class UtilitiesComponent implements OnInit {
   @ViewChild(UtilitiesInfoBoxComponent) infoBox: UtilitiesInfoBoxComponent;
 
   utilities: Utility[] = [];
+  services: Service[] = [];
   searchParameter = '';
-  serviceId = 0;
+  serviceId = null;
   flexWheel: boolean;
   totalElements: number;
   currPage = 0;
@@ -47,28 +50,30 @@ export class UtilitiesComponent implements OnInit {
   date: Date;
 
   ngOnInit(): void {
-    this.isAdmin = localStorage.getItem('currentUserRole')!==null && localStorage.getItem('currentUserRole') === 'admin';
+    this.isAdmin = localStorage.getItem('currentUserRole') !== null && localStorage.getItem('currentUserRole') === 'admin';
+    this.addressId = +this.router.url.split('/').pop();
+    this.getServices();
     this.getData();
   }
 
   getData(): void {
     this.params = new HttpParams().append('page', this.currPage.toString())
-      .append('size', this.currSize.toString());
-    this.addressId = +this.activatedRoute.snapshot.paramMap.get('addressId');
-    //let search = null;
+      .append('size', this.currSize.toString())
+      .append('address',this.addressId == null ? null : this.addressId.toString());
+
+    if (this.serviceId != null){
+      this.params = this.params.append('service', this.serviceId.toString());
+    }
+
     if (this.searchParameter !== '') {
       if (this.searchField === 'dateFrom' || this.searchField === 'dateTo') {
         let date = new Date(this.searchParameter);
         this.params = this.params.append(this.searchField, new Date(date.getFullYear(), date.getMonth(), 1).getTime().toString());
-        //search = this.searchField + '=' + new Date(date.getFullYear(), date.getMonth(), 1).getTime();
       } else {
         this.params = this.params.append(this.searchField, this.searchParameter);
-        //search = this.searchField + "=" + this.searchParameter;
       }
-    } else if (!isNaN(this.addressId)) {
-      this.params = this.params.append('address', this.addressId.toString());
-      //search = 'address==' + this.addressId;
     }
+
     this.flexWheel = true;
     this.httpServer.getData(this.params).subscribe(
       (response) => {
@@ -81,6 +86,15 @@ export class UtilitiesComponent implements OnInit {
       },
       (error) => {
         console.log('error occupied : ' + error);
+      }
+    );
+  }
+
+  getServices(): void {
+    this.utilitiesService.getServicesTypes().subscribe(
+      (responseServices) => {
+        // @ts-ignore
+        this.services = responseServices.content;
       }
     );
   }
@@ -103,45 +117,28 @@ export class UtilitiesComponent implements OnInit {
     });
   }
 
+  openUserServices(): void {
+    const dialogRef = this.dialog.open(UtilitiesInfoBoxComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+
   getPaginatorData(event: PageEvent): void {
     this.currSize = event.pageSize;
     this.currPage = event.pageIndex;
     this.getData();
   }
 
-  onLastClick(): void {
+  changeService(serviceName: string): void {
     this.utilities = null;
-    this.serviceId = 0;
-    this.getData();
-  }
-
-  onElectricityClick(): void {
-    this.utilities = null;
-    this.serviceId = 161;
-    this.getData();
-  }
-
-  onWaterClick(): void {
-    this.utilities = null;
-    this.serviceId = 162;
-    this.getData();
-  }
-
-  onGasClick(): void {
-    this.utilities = null;
-    this.serviceId = 163;
-    this.getData();
-  }
-
-  onOSMDClick(): void {
-    this.utilities = null;
-    this.serviceId = 164;
-    this.getData();
-  }
-
-  onInternetClick(): void {
-    this.utilities = null;
-    this.serviceId = 165;
+    this.serviceId = null;
+    for (let service of this.services) {
+      if (service.name == serviceName) {
+        this.serviceId = service.id;
+      }
+    }
     this.getData();
   }
 }

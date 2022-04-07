@@ -6,6 +6,7 @@ import {UtilitiesComponent} from './view/utilities/utilities.component';
 import {UsersComponent} from './view/users/users.component';
 import {ActivationCodeComponent, EKeyComponent, ErrorPageComponent, UserProfileComponent} from './view/views';
 import {AddressComponent} from './view/address/address.component';
+import {ServiceComponent} from './view/utilities/services/service.component';
 import {HomePageComponent} from './view/home-page/home-page.component';
 import {LoggerComponent} from './view/logger/logger.component';
 
@@ -22,6 +23,7 @@ const routes: Routes = [
   {path: 'users', component: UsersComponent},
   {path: 'userProfile/:userId', component: UserProfileComponent},
   {path: 'utilities/:addressId', component: UtilitiesComponent},
+  {path: 'utilities/services/:address', component: ServiceComponent},
   {path: 'address/:buildingId', component: AddressComponent},
   {path: 'utilities', component: UtilitiesComponent},
   {path: '**', component: ErrorPageComponent}

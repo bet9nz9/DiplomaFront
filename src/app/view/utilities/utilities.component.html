@@ -1,6 +1,6 @@
 <div class="flexBox">
 
-  <app-utilities-info-box class="infoBox" [addressId]="addressId"></app-utilities-info-box>
+<!--  <app-utilities-info-box class="infoBox"></app-utilities-info-box>-->
 
   <div class="box">
 
@@ -34,53 +34,51 @@
             </mat-select>
           </mat-form-field>
         </div>
-
         <div class="find__button">
           <button mat-raised-button [disabled]="flexWheel" (click)="currPage = 0; getData()">Найти</button>
         </div>
       </div>
-
       <div class="add__button" *ngIf="isAdmin">
         <button mat-raised-button (click)="openAddDialog()" [disabled]="flexWheel">Добавить</button>
+        <button mat-raised-button [routerLink]="['/utilities/services', addressId]" [disabled]="flexWheel">Комунальные счета</button>
       </div>
-
     </div>
 
     <mat-tab-group>
       <mat-tab label="Последние">
         <ng-template mat-tab-label>
-          <span (click)="onLastClick()">Последние</span>
+          <span (click)="changeService('')">Последние</span>
         </ng-template>
         <app-utilities-table [utilitiesTable]="utilities"></app-utilities-table>
       </mat-tab>
       <mat-tab label="Электричество">
         <ng-template mat-tab-label>
-          <span (click)="onElectricityClick()">Электричество</span>
+          <span (click)="changeService('Электричество')">Электричество</span>
         </ng-template>
         <app-utilities-table [utilitiesTable]="utilities"></app-utilities-table>
       </mat-tab>
       <mat-tab label="Вода">
         <ng-template mat-tab-label>
-          <span (click)="onWaterClick()">Вода</span>
+          <span (click)="changeService('Вода')">Вода</span>
         </ng-template>
         <app-utilities-table [utilitiesTable]="utilities"></app-utilities-table>
       </mat-tab>
       <mat-tab label="Газ">
         <ng-template mat-tab-label>
-          <span (click)="onGasClick()">Газ</span>
+          <span (click)="changeService('Газ')">Газ</span>
         </ng-template>
         <app-utilities-table [utilitiesTable]="utilities"></app-utilities-table>
       </mat-tab>
       <mat-tab label="ОСМД">
         <ng-template mat-tab-label>
-          <span (click)="onOSMDClick()">ОСМД</span>
+          <span (click)="changeService('ОСМД')">ОСМД</span>
         </ng-template>
         <app-utilities-table-without-readings [utilitiesTable]="utilities"></app-utilities-table-without-readings>
       </mat-tab>
 
       <mat-tab label="Интернет">
         <ng-template mat-tab-label>
-          <span (click)="onInternetClick()">Интернет</span>
+          <span (click)="changeService('Интернет')">Интернет</span>
         </ng-template>
         <app-utilities-table-without-readings [utilitiesTable]="utilities"></app-utilities-table-without-readings>
       </mat-tab>
