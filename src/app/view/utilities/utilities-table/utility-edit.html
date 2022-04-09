@@ -39,7 +39,7 @@
   <div *ngIf="utility.endMonthReading !== null; else elseBlock">
     <mat-form-field style="width: 40vh">
       <mat-label>Показания в конце месяца</mat-label>
-      <input matInput type="number" [disabled]="true" value="{{utility.endMonthReading}}" [(ngModel)]="utility.endMonthReading">
+      <input matInput type="text" [disabled]="false" value="{{utility.endMonthReading}}" [(ngModel)]="utility.endMonthReading">
     </mat-form-field>
   </div>
   <ng-template #elseBlock>

@@ -49,7 +49,6 @@ export class AddressComponent implements OnInit {
     this.httpServer.getAddressesByBuildingId(this.params).subscribe(
       (response) => {
         // @ts-ignore
-        debugger
         this.addresses = response.content;
         // @ts-ignore
         this.totalElements = parseInt(response.totalElements);

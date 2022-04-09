@@ -7,30 +7,39 @@
     <div class="add">
       <div class="wrapper">
         <div class="filter">
-          <div *ngIf="searchField === 'dateTo' || searchField === 'dateFrom'; else elseField">
+
+          <div [hidden] = "!showDatePicker">
             <mat-form-field appearance="fill" style="width: 40vh">
               <mat-label>Выберите дату</mat-label>
-              <input matInput [matDatepicker]="picker" [(ngModel)]="searchParameter">
+              <input matInput [matDatepicker]="picker" [(ngModel)]="searchField">
               <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
               <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
           </div>
-          <ng-template #elseField>
+          <div [hidden] = "!showStatuses">
+            <mat-form-field style="width: 15vh" [hidden]="!showStatuses" >
+              <mat-label>Статус</mat-label>
+              <mat-select [(ngModel)]="searchField">
+                <mat-option value="true">Оплачен</mat-option>
+                <mat-option value="false">Не оплачен</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div [hidden] = "true">
             <mat-form-field style="width: 40vh">
               <mat-label>Поиск</mat-label>
-              <input matInput placeholder="" [(ngModel)]="searchParameter">
+              <input matInput placeholder="" [(ngModel)]="searchField">
             </mat-form-field>
-          </ng-template>
+          </div>
         </div>
 
         <div class="find__button">
           <mat-form-field style="width: 15vh">
             <mat-label>Искать по</mat-label>
-            <mat-select [(ngModel)]="searchField">
-              <mat-option value="">Отсутсвует</mat-option>
-              <mat-option value="dateTo">Дата до</mat-option>
-              <mat-option value="dateFrom">Дата после</mat-option>
-              <mat-option value="status">Статус</mat-option>
+            <mat-select [(ngModel)]="searchParameter">
+              <mat-option (click)="hideField('')" value="">Отсутсвует</mat-option>
+              <mat-option (click)="hideField('dateAndTime')" value="dateAndTime">Дата</mat-option>
+              <mat-option (click)="hideField('status')" value="status">Статус</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
