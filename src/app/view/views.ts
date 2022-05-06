@@ -14,6 +14,7 @@ export {WaitComponent} from './wait/wait.component';
 export {RegistryComponent} from "./top-menu/registry/registry.component";
 export { EKeyComponent } from './ekey/ekey.component';
 export { EkeyEditComponent } from './ekey/ekey-edit/ekey-edit.component';
+export { OpenCloseEntranceComponent } from './entrance/entrance-interaction/open-close-entrance.component';
 export { EkeyAddComponent } from './ekey/ekey-add/ekey-add.component';
 export {NotActivatedComponent} from "./top-menu/auth-dialog/not-activated/not-activated.component";
 export { ActivationCodeComponent} from "./activation-code/activation-code.component";

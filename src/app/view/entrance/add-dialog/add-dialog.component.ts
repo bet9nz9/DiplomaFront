@@ -72,7 +72,7 @@ export class AddDialogComponent implements OnInit {
 
   addEnt(): void{
     this.openWaitDialog();
-    debugger
+    this.entrance.isOpen = false;
     this.entranceService.addEntrance(this.entrance).subscribe(
       (response) =>
       {

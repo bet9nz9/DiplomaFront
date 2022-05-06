@@ -70,7 +70,6 @@ export class AddressComponent implements OnInit {
       (response) => {
         // @ts-ignore
         this.addresses = response.content;
-        debugger
         // @ts-ignore
         this.totalElements = parseInt(response.totalElements);
         this.flexWheel = false;

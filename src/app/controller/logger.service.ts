@@ -20,10 +20,10 @@ export class LoggerService extends PortService{
 
   url = 'http://localhost:'+this.port+'/logger';
 
-  downloadPDF(body: Logger[]): void {
-    console.log('http://localhost:'+this.port+'/entrance/export');
-    this.http.get('http://localhost:'+this.port+'/entrance/export',{
-      responseType: 'arraybuffer', headers:this.httpHeaders}).subscribe(response => this.downLoadFile(response,"application/pdf"));
+  downloadPDF(params: HttpParams): void {
+    //console.log('http://localhost:'+this.port+'/entrance/export');
+    this.http.get('http://localhost:'+this.port+'/logger/export',{
+      responseType: 'arraybuffer', headers:this.httpHeaders, params: params}).subscribe(response => this.downLoadFile(response,"application/pdf"));
   }
 
   downLoadFile(data: any, type: string){
@@ -49,16 +49,6 @@ export class LoggerService extends PortService{
 
   getData(params: HttpParams): Observable<Logger> {
     return  this.http.get<Logger>(this.url, {headers: this.httpHeaders, params: params});
-    // if (pageNumber === 0 && size === 0) {
-    //   return this.http.get<Logger>(this.url);
-    // }
-    // if (searchParameter != ''){
-    //   return this.http.get<Logger>(this.url + '?' + searchParameter, {headers: this.httpHeaders});
-    // }
-    // if (searchParameter !== ''){
-    //   return this.http.get<Logger>(this.url + '?page=' + pageNumber + '&size=' + size + '&' + searchParameter, {headers: this.httpHeaders});
-    // }
-    // return this.http.get<Logger>(this.url + '?page=' + pageNumber + '&size=' + size, {headers: this.httpHeaders});
   }
 
   getOneLogger(id: number): Observable<Logger> {

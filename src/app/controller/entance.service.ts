@@ -34,8 +34,11 @@ export class EntranceService extends PortService {
   }
 
   updateEntrance(body: Entrance): Observable<Entrance> {
-    debugger
     return this.http.put<Entrance>(this.url, body, {headers: this.httpHeaders});
+  }
+
+  interact(params: HttpParams): Observable<any>{
+    return this.http.get<Entrance>(this.url+'/interact', {headers: this.httpHeaders, params: params})
   }
 
   getOneEntrance(id: number): Observable<Entrance> {

@@ -52,6 +52,7 @@ import {RegistryComponent} from './top-menu/registry/registry.component';
 import {EKeyComponent} from './ekey/ekey.component';
 import { EkeyAddComponent } from './ekey/ekey-add/ekey-add.component';
 import { EkeyEditComponent } from './ekey/ekey-edit/ekey-edit.component';
+import { OpenCloseEntranceComponent } from './entrance/entrance-interaction/open-close-entrance.component';
 import {NotActivatedComponent} from './top-menu/auth-dialog/not-activated/not-activated.component';
 import { ActivationCodeComponent} from './activation-code/activation-code.component';
 import {ErrorPageComponent} from './error-page/error-page.component';
@@ -102,6 +103,7 @@ import { SubmitComponent } from './submit/submit.component';
     RegistryComponent,
     EkeyAddComponent,
     EkeyEditComponent,
+    OpenCloseEntranceComponent,
     NotActivatedComponent,
     ActivationCodeComponent,
     LoggerComponent,
@@ -188,6 +190,7 @@ import { SubmitComponent } from './submit/submit.component';
     EKeyComponent,
     RegistryComponent,
     EkeyEditComponent,
+    OpenCloseEntranceComponent,
     EkeyAddComponent,
     NotActivatedComponent,
     ActivationCodeComponent,

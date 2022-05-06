@@ -1,36 +1,52 @@
-<div class = "box">
+<div class="box">
 
   <div class="add">
     <div class="wrapper">
       <div class="filter">
-        <div *ngIf="searchField === 'dateTo' || searchField === 'dateFrom'; else elseField">
+        <div [hidden] = "!(searchParameter == 'dateTo' || searchParameter == 'dateFrom')">
           <mat-form-field appearance="fill" style="width: 40vh">
             <mat-label>Выберите дату</mat-label>
-            <input matInput [matDatepicker]="picker" [(ngModel)]="searchParameter">
+            <input matInput [matDatepicker]="picker" [(ngModel)]="searchField">
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
           </mat-form-field>
         </div>
-        <ng-template #elseField>
-          <mat-form-field style="width: 40vh">
-            <mat-label>Поиск</mat-label>
-            <input matInput placeholder="" [(ngModel)]="searchParameter">
+        <div [hidden]="searchParameter != 'ekeyId'">
+          <mat-form-field style="width: 35vh">
+            <mat-label>Выберите электронный ключ</mat-label>
+            <mat-select [(ngModel)]="searchField">
+              <div *ngFor="let ekey of ekeys">
+                <mat-option value="{{ekey.id}}">{{ekey.keyCode}}</mat-option>
+              </div>
+            </mat-select>
           </mat-form-field>
-        </ng-template>
+        </div>
+        <div [hidden]="searchParameter != 'entranceId'">
+          <mat-form-field style="width: 35vh">
+            <mat-label>Выберите вход/выход</mat-label>
+            <mat-select [(ngModel)]="searchField">
+              <div *ngFor="let entrance of entrances">
+                <mat-option value="{{entrance.id}}">{{entrance.name}}</mat-option>
+              </div>
+            </mat-select>
+          </mat-form-field>
+        </div>
       </div>
       <div class="find__button">
-        <mat-form-field style="width: 15vh">
+        <mat-form-field style="width: 20vh">
           <mat-label>Искать по</mat-label>
-          <mat-select [(ngModel)]="searchField">
+          <mat-select [(ngModel)]="searchParameter">
             <mat-option value="">Отсутсвует</mat-option>
             <mat-option value="dateTo">Дата до</mat-option>
             <mat-option value="dateFrom">Дата после</mat-option>
+            <mat-option value="ekeyId">Электронный ключ</mat-option>
+            <mat-option value="entranceId">Вход/Выход</mat-option>
           </mat-select>
         </mat-form-field>
       </div>
 
       <div class="find__button">
-        <button mat-raised-button [disabled]="flexWheel" (click)="currPage = 0; getData()">Найти</button>
+        <button mat-raised-button [disabled]="flexWheel" (click)="currPage = 0; search()">Найти</button>
       </div>
     </div>
     <div class="add__button">
@@ -38,41 +54,44 @@
     </div>
   </div>
 
-  <table mat-table [dataSource]="loggers" class="mat-elevation-z8">
+  <div>
+    <table mat-table [dataSource]="loggers" class="mat-elevation-z8">
 
-    <ng-container matColumnDef="user">
-      <th mat-header-cell *matHeaderCellDef>Пользователь</th>
-      <td mat-cell *matCellDef="let logger"> {{logger.eKeyId.user.lastName}} </td>
-    </ng-container>
+      <ng-container matColumnDef="user">
+        <th mat-header-cell *matHeaderCellDef>Пользователь</th>
+        <td mat-cell *matCellDef="let logger"> {{logger.eKey == undefined ? '-' : logger.eKey.referencedUser.lastName}} </td>
+      </ng-container>
 
-    <ng-container matColumnDef="eKey">
-      <th mat-header-cell *matHeaderCellDef>Электронный ключ</th>
-      <td mat-cell *matCellDef="let logger"> {{logger.eKeyId.name}} </td>
-    </ng-container>
+      <ng-container matColumnDef="eKey">
+        <th mat-header-cell *matHeaderCellDef>Электронный ключ</th>
+        <td mat-cell *matCellDef="let logger"> {{logger.eKey == undefined ? '-' : logger.eKey.name}} </td>
+      </ng-container>
 
-    <ng-container matColumnDef="entrance">
-      <th mat-header-cell *matHeaderCellDef>Вход</th>
-      <td mat-cell *matCellDef="let logger"> {{logger.entranceId.name}} </td>
-    </ng-container>
+      <ng-container matColumnDef="entrance">
+        <th mat-header-cell *matHeaderCellDef>Вход</th>
+        <td mat-cell *matCellDef="let logger"> {{logger.entrance.name}} </td>
+      </ng-container>
 
-    <ng-container matColumnDef="date">
-      <th mat-header-cell *matHeaderCellDef>Дата</th>
-      <td mat-cell *matCellDef="let logger"> {{logger.date}} </td>
-    </ng-container>
+      <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef>Дата</th>
+        <td mat-cell *matCellDef="let logger"> {{logger.dateAndTime}} </td>
+      </ng-container>
 
-    <ng-container matColumnDef="time">
-      <th mat-header-cell *matHeaderCellDef>Время</th>
-      <td mat-cell *matCellDef="let logger"> {{logger.time}} </td>
-    </ng-container>
+      <ng-container matColumnDef="message">
+        <th mat-header-cell *matHeaderCellDef>Сообщение</th>
+        <td mat-cell *matCellDef="let logger"> {{logger.message}} </td>
+      </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
-  </table>
-  <mat-paginator length="{{totalElements}}" pageSize="5" [pageSizeOptions]="[1, 5, 10]" (page)="getPaginatorData($event)" [disabled]="flexWheel"></mat-paginator>
+    </table>
+    <mat-paginator length="{{totalElements}}" pageSize="5" [pageSizeOptions]="[1, 5, 10]"
+                   (page)="getPaginatorData($event)" [disabled]="flexWheel"></mat-paginator>
 
-  <div class="flex" *ngIf="flexWheel">
-    <mat-spinner></mat-spinner>
+    <div class="flex" *ngIf="flexWheel">
+      <mat-spinner></mat-spinner>
+    </div>
   </div>
 
 </div>
