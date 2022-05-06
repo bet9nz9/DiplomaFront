@@ -44,7 +44,7 @@
 
   <mat-form-field style="width: 40vh" [formGroup]="formGroup">
     <mat-label>Активное</mat-label>
-    <mat-select formControlName="activeForm" [(ngModel)]="entrance.isActive">
+    <mat-select formControlName="activeForm" [(ngModel)]="entrance.status">
       <mat-option value="true">Активный</mat-option>
       <mat-option value="false">Не активный</mat-option>
     </mat-select>

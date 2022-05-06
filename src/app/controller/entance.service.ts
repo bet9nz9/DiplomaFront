@@ -4,10 +4,6 @@ import {Observable} from 'rxjs';
 import {Entrance} from '../model/entrance';
 import {PortService} from './port.service';
 
-// const httpHeaders: HttpHeaders = new HttpHeaders({
-//   Authorization: localStorage.getItem('Authorization')
-// });
-
 @Injectable({
   providedIn: 'any'
 })
@@ -26,18 +22,14 @@ export class EntranceService extends PortService {
 
   getData(params: HttpParams): Observable<Entrance> {
     return  this.http.get<Entrance>(this.url, {headers: this.httpHeaders, params: params});
-    // if (pageNumber === 0 && size === 0) {
-    //   return this.http.get<Entrance>(this.url, {headers: this.httpHeaders});
-    // }
-    // return this.http.get<Entrance>(this.url + '?page=' + pageNumber + '&size=' + size, {headers: this.httpHeaders});
   }
 
   findWithParam(params: HttpParams): Observable<Entrance> {
     return  this.http.get<Entrance>(this.url, {headers: this.httpHeaders, params: params});
-    //return this.http.get<Entrance>(this.url + '?size=' + size + '&' + param + '=' + name + '&page=' + page, {headers: this.httpHeaders});
   }
 
   addEntrance(body: Entrance): Observable<any> {
+    debugger
     return this.http.post<Entrance>(this.url + '/add', body, {headers: this.httpHeaders});
   }
 

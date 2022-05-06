@@ -38,9 +38,9 @@ export class EntranceComponent implements OnInit {
     this.isGuard = localStorage.getItem('currentUserRole')!==null && localStorage.getItem('currentUserRole') === 'guard';
     this.isAdmin = localStorage.getItem('currentUserRole')!==null && localStorage.getItem('currentUserRole') === 'admin';
     if (this.isGuard || this.isAdmin){
-      this.displayedColumns = ['name', 'description', 'type', 'building', 'status', 'active', 'actions'];
+      this.displayedColumns = ['name', 'description', 'type', 'building', 'status', 'actions'];
     }else{
-      this.displayedColumns = ['name', 'description', 'type', 'building', 'status', 'active'];
+      this.displayedColumns = ['name', 'description', 'type', 'building', 'status'];
     }
   }
 
@@ -106,7 +106,7 @@ export class EntranceComponent implements OnInit {
   }
 
   hideField(): void {
-    if (this.findFor == "isActive" || this.findFor == "status"){
+    if (this.findFor == "status"){
       this.hideSearchField = true;
     } else {
       this.hideSearchField = false;

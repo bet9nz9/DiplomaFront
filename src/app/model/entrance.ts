@@ -6,7 +6,6 @@ export class Entrance extends BaseEntity{
   entranceType: Type;
   building: Building;
   status: boolean;
-  isActive: boolean;
 
   constructor(obj: any) {
     super(obj);
@@ -14,7 +13,6 @@ export class Entrance extends BaseEntity{
       this.entranceType = obj && obj.entranceType || null;
       this.building = obj && obj.building || null;
       this.status = obj && obj.status || null;
-      this.isActive = obj && obj.isActive || null;
     }
   }
 }

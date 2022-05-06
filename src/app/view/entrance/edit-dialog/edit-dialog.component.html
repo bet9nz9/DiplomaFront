@@ -43,17 +43,9 @@
     </mat-error>
   </mat-form-field>
 
-<!--  <mat-form-field style="width: 40vh" [formGroup]="formGroup">-->
-<!--    <mat-label>roleId</mat-label>-->
-<!--    <input matInput formControlName="roleForm" value="{{entrance.roleId}}" [(ngModel)]="entrance.roleId">-->
-<!--    <mat-error *ngIf="formGroup.controls['roleForm'].hasError('required')">-->
-<!--      RoleId is <strong>required</strong>-->
-<!--    </mat-error>-->
-<!--  </mat-form-field>-->
-
   <mat-form-field style="width: 40vh" [formGroup]="formGroup">
     <mat-label>Активное</mat-label>
-    <mat-select formControlName="activeForm" [(ngModel)]="isActive">
+    <mat-select formControlName="activeForm" value="{{entrance.status}}" [(ngModel)]="entrance.status">
       <mat-option value="true">Активный</mat-option>
       <mat-option value="false">Не Активный</mat-option>
     </mat-select>
