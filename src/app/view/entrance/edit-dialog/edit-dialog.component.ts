@@ -49,7 +49,7 @@ export class EditDialogComponent implements OnInit {
     this.typeService.getAll().subscribe(
       (response) =>
       {
-        //@ts-ignore
+        // @ts-ignore
         this.types = response.content;
       },
       (error) =>
@@ -60,7 +60,7 @@ export class EditDialogComponent implements OnInit {
     this.buildingService.getAll().subscribe(
       (response) =>
       {
-        //@ts-ignore
+        // @ts-ignore
         this.buildings = response.content;
         this.disable = true;
       },
@@ -82,19 +82,19 @@ export class EditDialogComponent implements OnInit {
   updateEntr(): void{
     this.openWaitDialog();
     let i;
-    for(i = 0; i < this.types.length; i++) {
-      if (this.typeName === this.types[i].name) this.entrance.entranceType = this.types[i];
+    for (i = 0; i < this.types.length; i++) {
+      if (this.typeName === this.types[i].name) { this.entrance.entranceType = this.types[i]; }
     }
-    for(i = 0; i < this.buildings.length; i++) {
-      if (this.buildingName === this.buildings[i].name) this.entrance.building = this.buildings[i];
+    for (i = 0; i < this.buildings.length; i++) {
+      if (this.buildingName === this.buildings[i].name) { this.entrance.building = this.buildings[i]; }
     }
     this.entranceService.updateEntrance(this.entrance).subscribe((data) =>
     {
       this.dialog.closeAll();
     }, (error) =>
       {
-        console.log("error" + error);
+        console.log('error' + error);
       }
-    )
+    );
   }
 }

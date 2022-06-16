@@ -1,0 +1,43 @@
+<div *ngIf="!flexWheel"><mat-spinner></mat-spinner></div>
+<div class="block" *ngIf="flexWheel">
+  <h2 mat-dialog-title>Добавить</h2>
+
+  <mat-form-field style="width: 40vh" [formGroup]="formGroup">
+    <mat-label>Title</mat-label>
+    <input matInput formControlName="title" [(ngModel)]="userService.title">
+    <mat-error *ngIf="formGroup.controls['title'].hasError('required')">
+      Это поле <strong>обязательное!</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field style="width: 40vh" [formGroup]="formGroup">
+    <mat-label>Tariff</mat-label>
+    <input matInput formControlName="tariff" [(ngModel)]="userService.tariff">
+    <mat-error *ngIf="formGroup.controls['tariff'].hasError('required')">
+      Это поле <strong>обязательное!</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field style="width: 40vh" [formGroup]="formGroup">
+    <mat-label>Bank Book</mat-label>
+    <input matInput formControlName="bankBook" [(ngModel)]="userService.bankBook">
+    <mat-error *ngIf="formGroup.controls['bankBook'].hasError('required')">
+      Это поле <strong>обязательное!</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field style="width: 40vh">
+    <mat-label>Service Type</mat-label>
+    <mat-select [(ngModel)]="userService.serviceType">
+      <mat-option *ngFor="let service of servicesTypes" [value]="service">
+        {{service.name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-dialog-actions>
+    <button mat-raised-button mat-dialog-close>Отмена</button>
+    <button mat-raised-button (click)="addUserService()" [disabled]="!formGroup.invalid">Подтвердить</button>
+  </mat-dialog-actions>
+
+</div>

@@ -1,0 +1,29 @@
+<div *ngIf="!disable">
+  <mat-spinner></mat-spinner>
+</div>
+<div class="block" *ngIf="disable">
+  <h2 mat-dialog-title>Изменить</h2>
+
+  <mat-form-field style="width: 40vh">
+    <mat-label>Title</mat-label>
+    <input matInput type="text" formControlName="title" value="{{userService.title}}" [(ngModel)]="userService.title">
+  </mat-form-field>
+
+  <mat-form-field style="width: 40vh">
+    <mat-label>Tariff</mat-label>
+    <input matInput type="text" formControlName="tariff" value="{{userService.tariff}}" [(ngModel)]="userService.tariff">
+  </mat-form-field>
+
+  <mat-form-field style="width: 40vh">
+    <mat-label>Bank Book</mat-label>
+    <input matInput type="text" formControlName="bankBook" value="{{userService.bankBook}}" [(ngModel)]="userService.bankBookr">
+  </mat-form-field>
+
+  <mat-dialog-actions>
+    <button mat-raised-button mat-dialog-close>Отмена</button>
+    <button mat-raised-button (click)="updateService()" [mat-dialog-close]="closeDialog" [disabled]="formGroup.invalid">
+      Подтвердить
+    </button>
+  </mat-dialog-actions>
+
+</div>

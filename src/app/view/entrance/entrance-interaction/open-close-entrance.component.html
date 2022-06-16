@@ -1,0 +1,21 @@
+<div *ngIf="!flexWheel"><mat-spinner></mat-spinner></div>
+<div class="block" *ngIf="flexWheel">
+  <h2 mat-dialog-title>Выберите электронный ключ</h2>
+
+  <div [formGroup] = "formGroup">
+    <mat-form-field style="width: 40vh">
+      <mat-label>Электронный ключ</mat-label>
+      <mat-select formControlName="ekey" [(ngModel)]="ekey">
+        <mat-option *ngFor="let ekey of ekeys" [value]="ekey">
+          {{ekey.keyCode}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <mat-dialog-actions>
+    <button mat-raised-button mat-dialog-close>Отмена</button>
+    <button mat-raised-button (click)="interact()" [disabled]="formGroup.invalid">Подтвердить</button>
+  </mat-dialog-actions>
+
+</div>
